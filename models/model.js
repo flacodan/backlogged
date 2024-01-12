@@ -36,7 +36,7 @@ Goal.init(
     {
         // user_id as foreign key from User
 
-        intention_id: {
+        goal_id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true
