@@ -1,4 +1,6 @@
 import Sequelize, { DataTypes, Model } from 'sequelize';
+import util from 'util';
+
 
 const db = new Sequelize('postgresql:///backlogged', { 
     define: { underscored: true }
@@ -107,5 +109,13 @@ Intention.belongsTo(User, { foreignKey: 'user_id' });
 User.hasOne(Preferences, { foreignKey: 'user_id' });
 Preferences.belongsTo(User, { foreignKey: 'user_id' });
 
+// in terminal: createdb backlogged
 // await db.sync({ force: true });
 // await db.close();
+
+
+// to test in terminal:
+// const { User, db } = await import('./models/model.js');
+// await db.sync();
+// const testUser = await User.create({ username: 'test@email.com', password: 'test' });
+// console.log(testUser);
