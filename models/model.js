@@ -42,11 +42,11 @@ Goal.init(
             primaryKey: true
         },
         title: {
-            type: DataTypes.STRING(30),
+            type: DataTypes.STRING(40),
             allowNull: false,
         },
         description: {
-            type: DataTypes.STRING,
+            type: DataTypes.TEXT,
         },
         category: {
             type: DataTypes.STRING(30),
