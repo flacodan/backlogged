@@ -1,10 +1,8 @@
-import Sequelize, { DataTypes, Model } from 'sequelize';
-import util from 'util';
+import { DataTypes, Model } from 'sequelize';
+import connectToDB from '../db.js';
 
 
-const db = new Sequelize('postgresql:///backlogged', { 
-    define: { underscored: true }
-});
+export const db = await connectToDB('postgresql:///backlogged');
 
 export class User extends Model {}
 
@@ -32,11 +30,12 @@ User.init(
 )
 
 
-export class Intention extends Model {}
+export class Goal extends Model {}
 
-Intention.init(
+Goal.init(
     {
         // user_id as foreign key from User
+
         intention_id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
@@ -74,7 +73,7 @@ Intention.init(
         }
     },
     {
-        modelName: 'intention',
+        modelName: 'goal',
         sequelize: db,
         updatedAt: false
     }
@@ -85,6 +84,8 @@ export class Preferences extends Model {}
 
 Preferences.init(
     {
+        // user_id as foreign key from User
+
         language: {
             type: DataTypes.STRING(30),
         },
@@ -103,18 +104,18 @@ Preferences.init(
 )
 
 //TABLE RELATIONSHIPS
-User.hasMany(Intention, { foreignKey: 'user_id' });
-Intention.belongsTo(User, { foreignKey: 'user_id' });
+User.hasMany(Goal, { foreignKey: 'user_id' });
+Goal.belongsTo(User, { foreignKey: 'user_id' });
 
 User.hasOne(Preferences, { foreignKey: 'user_id' });
 Preferences.belongsTo(User, { foreignKey: 'user_id' });
 
-// in terminal: createdb backlogged
 // await db.sync({ force: true });
 // await db.close();
 
 
-// to test in terminal:
+// in terminal: createdb backlogged
+// to test in node:
 // const { User, db } = await import('./models/model.js');
 // await db.sync();
 // const testUser = await User.create({ username: 'test@email.com', password: 'test' });

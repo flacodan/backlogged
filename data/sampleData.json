@@ -1,0 +1,37 @@
+[
+  {
+    "description": "My garage is part of a study of the second law of thermodynamics: as one goes forward in time, the net entropy (degree of disorder) of any isolated or closed system will always increase. I should consider leaving the door open in the future.",
+    "category": "project",
+    "dueDate": "",
+    "completed": false,
+    "title": "Clean out the garage"
+  },
+  {
+    "description": "Two projects diverged in a yellow wood, and sorry I could not program both And be still sane, long I stood And spec-ed out one far as I could Till complications made me loath; Then considered the other to be fair, To just get started was my aim, Because it was late to have much care; Though it was just as complex there So both were really much the same, And me this evening sitting here, these verses won't help me code I fear, ... but starting vs code might make all the difference.",
+    "category": "project",
+    "dueDate": "2024-02-01",
+    "completed": false,
+    "title": "Work on my DevMountain personal project"
+  },
+  {
+    "description": "Because a movie with sacred tortilla chips AND wrestling priests has to be watched more often.",
+    "category": "movie",
+    "dueDate": "",
+    "completed": false,
+    "title": "Nacho Libre"
+  },
+  {
+    "description": "Time to play an rpg",
+    "category": "game",
+    "dueDate": "",
+    "completed": false,
+    "title": "Sea of Stars"
+  },
+  {
+    "description": "It's been awhile since I read this book I loved as a kid.",
+    "category": "book",
+    "dueDate": "",
+    "completed": false,
+    "title": "The Arkadians"
+  }
+]
