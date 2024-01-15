@@ -1,9 +1,0 @@
-
-favicons - After creating the base project and deleting some of the vite default files, an error was appearing in the browser console window about missing favicons. After a quick search I went to redketchup.io/favicon-generator and created some to include in the project.
-
-add to gitignore:
-.env file
-port number,
-db connection string,
-tokens,
-account information

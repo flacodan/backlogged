@@ -1,0 +1,23 @@
+
+Favicons - After creating the base project and deleting some of the vite default files, an error was appearing in the browser console window about missing favicons. After a quick search I went to redketchup.io/favicon-generator and created some to include in the project.
+This also added a webmanifest that helps android with the icons and also passes app name and description (etc) to a browser.
+
+DOTENV
+add to gitignore:
+.env file for
+    port number,
+    db connection string,
+    tokens,
+    account information
+Create a separate .env file for use in production
+Vars should look like this: REACT_APP_API_KEY=abc123
+Access these in code like this: const apiKey = process.env.REACT_APP_API_KEY;
+In some cases it will be preferable to use a secrets management system.
+
+
+Project Tracking
+I found that I can use Jira for free, created an account and began setting up for tracking this app. As I was looking into integration with github, I found that github also has a free project tracking tool, github Projects. I've decided to go with github Projects for now, since I already have experience with Jira and because I want to see how the integration works out.
+So far it seems like a decent, simple tool - though some things seem to not be as straightforward as they should be. For example, every time I open Projects and want to create an 'issue', I have to select the Backlogger project again. I created a separate project for pixelFlip. It appears that you may want to reference multiple repositories with a single project? It would be nice if they made it simpler for my OWN use cases... :D
+
+Folders, Folders and Folders, separation of concerns, general template, best practices
+So many folders compared to previous projects, I've been trying to embrace some ideas for working with larger projects, even though I may not really need it here, so it's leaning toward better separation of concerns and best practices - at least as far as my beginner's understanding goes.

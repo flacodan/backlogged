@@ -1,6 +1,7 @@
 {
-    "name": "",
-    "short_name": "",
+    "name": "Backlogged",
+    "short_name": "BL",
+    "description": "An activity backlog list app for gaming, books, movies and more.",
     "icons": [
        {
           "src": "/android-chrome-192x192.png",
@@ -12,8 +13,5 @@
         "sizes": "512x512",
         "type": "image/png"
         }
-    ],
-    "theme_color": "#FFFFFF",
-    "background_color": "#FFFFFF",
-    "display": "standalone"
+    ]
  }
