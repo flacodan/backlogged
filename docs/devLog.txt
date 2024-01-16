@@ -1,5 +1,5 @@
 
-Favicons - After creating the base project and deleting some of the vite default files, an error was appearing in the browser console window about missing favicons. After a quick search I went to redketchup.io/favicon-generator and created some to include in the project.
+FAVICONS - After creating the base project and deleting some of the vite default files, an error was appearing in the browser console window about missing favicons. After a quick search I went to redketchup.io/favicon-generator and created some to include in the project.
 This also added a webmanifest that helps android with the icons and also passes app name and description (etc) to a browser.
 
 DOTENV
@@ -9,9 +9,18 @@ add to gitignore:
     db connection string,
     tokens,
     account information
-Create a separate .env file for use in production
+Create a separate .env file for use in production .env.production
 Vars should look like this: REACT_APP_API_KEY=abc123
+Except it seems that in a Vite setup they should be VITE_API_KEY
 Access these in code like this: const apiKey = process.env.REACT_APP_API_KEY;
+https://vitejs.dev/guide/env-and-mode 
+UPDATE:
+install dotenv
+Looks like all I needed was: 
+import dotenv from "dotenv";
+dotenv.config();
+const port = process.env.REACT_APP_PORT ?? 3000;
+
 In some cases it will be preferable to use a secrets management system.
 
 
@@ -21,3 +30,8 @@ So far it seems like a decent, simple tool - though some things seem to not be a
 
 Folders, Folders and Folders, separation of concerns, general template, best practices
 So many folders compared to previous projects, I've been trying to embrace some ideas for working with larger projects, even though I may not really need it here, so it's leaning toward better separation of concerns and best practices - at least as far as my beginner's understanding goes.
+
+SEQUELIZE AUTO-Generated METHODS:
+https://sequelize.org/docs/v6/core-concepts/assocs/#special-methods-mixins-added-to-instances
+https://sequelize.org/docs/v6/core-concepts/assocs/
+https://sequelize.org/docs/v6/core-concepts/model-instances/

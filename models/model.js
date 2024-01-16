@@ -1,7 +1,10 @@
 import { DataTypes, Model } from "sequelize";
 import connectToDB from "../db.js";
+import dotenv from "dotenv";
 
-const dbURI = REACT_APP_DATABASE_URL;
+dotenv.config();
+const dbURI = process.env.REACT_APP_DATABASE_URL ?? "postgresql:///backlogged";
+console.log("db is: " + dbURI);
 
 export const db = await connectToDB(dbURI);
 
