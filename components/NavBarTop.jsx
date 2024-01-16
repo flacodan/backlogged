@@ -1,7 +1,11 @@
-import { Navbar } from "react-bootstrap";
+// import { Navbar } from "react-bootstrap";  <Navbar></Navbar>
 
 export default function NavBarTop() {
     return (
-        <Navbar></Navbar>
+        <div>
+            <button>Menu</button>
+            <p>\\\\\\\\\\\\\\\\\\\\\\\ BACKLOGGED_____</p>
+            <button>EN</button>
+        </div>
     );
 };

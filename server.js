@@ -11,10 +11,18 @@ const app = express();
 app.use(express.json());
 ViteExpress.config({ printViteDevServerHost: true });
 
-const { getAllGoals, getGoal, addGoal, updateGoalData, deleteGoal } = goalCtrl;
+const {
+  getAllGoals,
+  getGoal,
+  getSelectedGoals,
+  addGoal,
+  updateGoalData,
+  deleteGoal,
+} = goalCtrl;
 // GOAL ENDPOINTS
 app.get("/api/goal", getAllGoals);
 app.get("/api/goal/:id", getGoal);
+app.get("/api/goalSelect", getSelectedGoals);
 app.post("/api/goal", addGoal);
 app.put("/api/goal/:id", updateGoalData);
 app.delete("/api/goal/:id", deleteGoal);

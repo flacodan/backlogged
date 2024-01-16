@@ -1,32 +1,16 @@
 import { useState } from 'react'
 import './App.css'
+import NavBarTop from '../components/NavBarTop.jsx'
+import GoalController from '../components/GoalController.jsx'
 
 function App() {
-  // add navbar here, then an <Outlet/> (other routes display here), will need to import { Outlet }
   return (
     <>
-      <nav>
-        <ul>
-          <li>Menu</li>
-          <li>\\\\\\\\\\\\ BACKLOGGED ___</li>
-          <li>icon EN / icon sunTheme</li>
-        </ul>
-      </nav>
-      Category Bar ------------------------------------------------------
-      <br/>
-      Sort buttons ------------------------- Alert ------- CompleteToggle
-      <br/>
-      Result table
-      <br/>
-      --------
-      <br/>
-      --------
-      <br/>
-      --------
-      <br/>
-      --------
-      <br/>
-      ADD NEW ICON
+      <NavBarTop/>
+      <GoalController/>
+      <div id="footerAdd">
+        <button>ADD</button>
+      </div>
     </>
   )
 }

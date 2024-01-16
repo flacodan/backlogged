@@ -1,4 +1,5 @@
 import { User, Goal, Preferences } from "../models/model.js";
+import { Op } from "sequelize";
 
 // GOAL ENDPOINTS
 export const goalCtrl = {
@@ -10,6 +11,14 @@ export const goalCtrl = {
     const { id } = req.params;
     const goal = await Goal.findByPk(id);
     res.status(200).json(goal);
+  },
+  getSelectedGoals: async (req, res) => {
+    const { category, sort, complete } = req.body;
+    const selectedGoals = await Goal.findAll({
+      where: { [Op.and]: [{ category: category }, { completed: complete }] },
+      order: ["title", "DESC"],
+    });
+    res.status(200).json(selectedGoals);
   },
   addGoal: async (req, res) => {
     // const { id } = req.session;
