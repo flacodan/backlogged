@@ -19,6 +19,7 @@ const {
   updateGoalData,
   deleteGoal,
 } = goalCtrl;
+
 // GOAL ENDPOINTS
 app.get("/api/goal", getAllGoals);
 app.get("/api/goal/:id", getGoal);

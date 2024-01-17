@@ -13,10 +13,10 @@ export const goalCtrl = {
     res.status(200).json(goal);
   },
   getSelectedGoals: async (req, res) => {
-    const { category, sort, complete } = req.body;
+    const { category, sort, complete } = req.query;
     const selectedGoals = await Goal.findAll({
       where: { [Op.and]: [{ category: category }, { completed: complete }] },
-      order: ["title", "DESC"],
+      order: [[sort, "ASC"]],
     });
     res.status(200).json(selectedGoals);
   },
@@ -36,14 +36,23 @@ export const goalCtrl = {
   updateGoalData: async (req, res) => {
     const { id } = req.params;
     const { title, description, category, completed } = req.body;
-    const goal = await Goal.findByPk(id);
-    goal.set({
-      title: title,
-      description: description,
-      category: category,
-      completed: completed,
-    });
-    await goal.save();
+    Goal.update(
+      {
+        title: title,
+        description: description,
+        category: category,
+        completed: completed,
+      },
+      { where: { goal_id: id } }
+    );
+    // const goal = await Goal.findByPk(id);
+    // goal.set({
+    //   title: title,
+    //   description: description,
+    //   category: category,
+    //   completed: completed,
+    // });
+    // await goal.save();
     res.sendStatus(200);
   },
   deleteGoal: async (req, res) => {
