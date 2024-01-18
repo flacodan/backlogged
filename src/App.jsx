@@ -1,18 +1,19 @@
-import { useState } from 'react'
-import './App.css'
-import NavBarTop from '../components/NavBarTop.jsx'
-import GoalController from '../components/GoalController.jsx'
+import { useState } from 'react';
+import './App.css';
+import MainNav from '../components/MainNav.jsx';
+import GoalController from '../components/GoalController.jsx';
+import AltNav from '../components/AltNav.jsx';
 
 function App() {
   return (
     <>
-      <NavBarTop/>
+      <AltNav></AltNav>
       <GoalController/>
       <div id="footerAdd">
         <button>ADD</button>
       </div>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
