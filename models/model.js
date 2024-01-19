@@ -1,6 +1,7 @@
 import { DataTypes, Model } from "sequelize";
 import connectToDB from "../db.js";
 import dotenv from "dotenv";
+import util from "util";
 
 dotenv.config();
 const dbURI = process.env.REACT_APP_DATABASE_URL ?? "postgresql:///backlogged";
@@ -8,7 +9,11 @@ console.log("db is: " + dbURI);
 
 export const db = await connectToDB(dbURI);
 
-export class User extends Model {}
+export class User extends Model {
+  [util.inspect.custom]() {
+    return this.toJSON();
+  }
+}
 
 User.init(
   {
@@ -34,7 +39,11 @@ User.init(
   }
 );
 
-export class Goal extends Model {}
+export class Goal extends Model {
+  [util.inspect.custom]() {
+    return this.toJSON();
+  }
+}
 
 Goal.init(
   {
@@ -83,7 +92,11 @@ Goal.init(
   }
 );
 
-export class Preferences extends Model {}
+export class Preferences extends Model {
+  [util.inspect.custom]() {
+    return this.toJSON();
+  }
+}
 
 Preferences.init(
   {
@@ -112,13 +125,3 @@ Goal.belongsTo(User, { foreignKey: "user_id" });
 
 User.hasOne(Preferences, { foreignKey: "user_id" });
 Preferences.belongsTo(User, { foreignKey: "user_id" });
-
-// await db.sync({ force: true });
-// await db.close();
-
-// in terminal: createdb backlogged
-// to test in node:
-// const { User, db } = await import('./models/model.js');
-// await db.sync();
-// const testUser = await User.create({ username: 'test@email.com', password: 'test' });
-// console.log(testUser);

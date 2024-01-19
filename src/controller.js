@@ -5,33 +5,35 @@ import { Op } from "sequelize";
 export const goalCtrl = {
   getAllGoals: async (req, res) => {
     const allGoals = await Goal.findAll();
-    res.status(200).json(allGoals);
+    res.status(200).send(allGoals);
   },
   getGoal: async (req, res) => {
     const { id } = req.params;
     const goal = await Goal.findByPk(id);
-    res.status(200).json(goal);
+    res.status(200).send(goal);
   },
   getSelectedGoals: async (req, res) => {
     const { category, sort, complete } = req.query;
+    console.log("getSelGoals sort: " + sort);
     const selectedGoals = await Goal.findAll({
       where: { [Op.and]: [{ category: category }, { completed: complete }] },
-      order: [[sort, "ASC"]],
+      order: [[{ sort: sort }, "ASC"]], //order: sequelize.literal(`? DESC`),
+      // attributes: ["", ""],
     });
-    res.status(200).json(selectedGoals);
+    res.status(200).send(selectedGoals);
   },
   addGoal: async (req, res) => {
-    // const { id } = req.session;
-    const id = 1; // FIX THIS!!!
+    // const { uId } = req.session;
+    const uId = 1; // FIX THIS so the currently logged in user id is used!!!
     const { title, description, category, completed } = req.body;
-    const user = await User.findByPk(id);
+    const user = await User.findByPk(uId);
     const goal = await user.createGoal({
       title: title,
       description: description,
       category: category,
       completed: completed,
     });
-    res.status(200).json(goal);
+    res.status(200).send(goal);
   },
   updateGoalData: async (req, res) => {
     const { id } = req.params;
@@ -45,14 +47,6 @@ export const goalCtrl = {
       },
       { where: { goal_id: id } }
     );
-    // const goal = await Goal.findByPk(id);
-    // goal.set({
-    //   title: title,
-    //   description: description,
-    //   category: category,
-    //   completed: completed,
-    // });
-    // await goal.save();
     res.sendStatus(200);
   },
   deleteGoal: async (req, res) => {
@@ -68,9 +62,8 @@ export const userCtrl = {
   getUser: async (req, res) => {
     const { id } = req.params;
     const user = await User.findByPk(id);
-    res.status(200).json(user);
+    res.status(200).send(user);
   },
-  //getUserByUsername: async (req, res) => {},
   addUser: async (req, res) => {
     const { username, password } = req.body;
     const user = await User.create({
@@ -78,7 +71,7 @@ export const userCtrl = {
       password: password,
     });
     await user.createPreference();
-    res.status(200).json(user);
+    res.status(200).send(user);
   },
   updateUserData: async (req, res) => {
     const { id } = req.params;
@@ -97,6 +90,7 @@ export const userCtrl = {
     await user.destroy();
     res.sendStatus(200);
   },
+  //getUserByUsername: async (req, res) => {},
 };
 
 // PREFERENCES ENDPOINTS
@@ -105,7 +99,7 @@ export const prefCtrl = {
     const { id } = req.params;
     const user = await User.findByPk(id);
     const prefs = await user.getPreference();
-    res.status(200).json(prefs);
+    res.status(200).send(prefs);
   },
   updatePrefData: async (req, res) => {
     const { id } = req.params;

@@ -35,3 +35,14 @@ SEQUELIZE AUTO-Generated METHODS:
 https://sequelize.org/docs/v6/core-concepts/assocs/#special-methods-mixins-added-to-instances
 https://sequelize.org/docs/v6/core-concepts/assocs/
 https://sequelize.org/docs/v6/core-concepts/model-instances/
+
+Manual  SEQUELIZE setup information
+// await db.sync({ force: true });
+// await db.close();
+
+// in terminal: createdb backlogged
+// to test in node:
+// const { User, db } = await import('./models/model.js');
+// await db.sync();
+// const testUser = await User.create({ username: 'test@email.com', password: 'test' });
+// console.log(testUser);

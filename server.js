@@ -9,6 +9,7 @@ const port = process.env.REACT_APP_PORT ?? 3000;
 const app = express();
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 ViteExpress.config({ printViteDevServerHost: true });
 
 const {
@@ -19,9 +20,8 @@ const {
   updateGoalData,
   deleteGoal,
 } = goalCtrl;
-
 // GOAL ENDPOINTS
-app.get("/api/goal", getAllGoals);
+app.get("/api/goals", getAllGoals);
 app.get("/api/goal/:id", getGoal);
 app.get("/api/goalSelect", getSelectedGoals);
 app.post("/api/goal", addGoal);

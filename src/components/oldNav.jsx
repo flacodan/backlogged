@@ -1,4 +1,3 @@
-// import { Navbar } from "react-bootstrap";  <Navbar></Navbar>
 import { Container, Nav, Navbar } from "react-bootstrap";
 
 export default function MainNav({ leftLinks, appName, rightLinks}) {
