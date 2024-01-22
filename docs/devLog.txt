@@ -1,3 +1,7 @@
+Welcome to \\\\Backlogged___ ! 
+
+Backlogged makes remembering, organizing and prioritizing your want-to-do lists easy!
+Simply click the ADD button to start keeping track of something you want to remember, note what you're thinking of, maybe assign a priority or even a due date and now you can see it listed and sorted with your other 'backlog' items!
 
 FAVICONS - After creating the base project and deleting some of the vite default files, an error was appearing in the browser console window about missing favicons. After a quick search I went to redketchup.io/favicon-generator and created some to include in the project.
 This also added a webmanifest that helps android with the icons and also passes app name and description (etc) to a browser.

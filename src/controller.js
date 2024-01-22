@@ -4,7 +4,11 @@ import { Op } from "sequelize";
 // GOAL ENDPOINTS
 export const goalCtrl = {
   getAllGoals: async (req, res) => {
-    const allGoals = await Goal.findAll();
+    const { category, sort, complete } = req.query;
+    const allGoals = await Goal.findAll({
+      where: { completed: complete }, //complete needs to be T/F!!!!!!!!!!!!!!!!!!!!!
+      // order: [],
+    });
     res.status(200).send(allGoals);
   },
   getGoal: async (req, res) => {
@@ -16,12 +20,24 @@ export const goalCtrl = {
     const { category, sort, complete } = req.query;
     console.log("getSelGoals sort: " + sort);
     const selectedGoals = await Goal.findAll({
-      where: { [Op.and]: [{ category: category }, { completed: complete }] },
-      order: [[{ sort: sort }, "ASC"]], //order: sequelize.literal(`? DESC`),
-      // attributes: ["", ""],
+      where: { category: category, completed: complete }, //complete needs to be T/F!!!!!!!!!!!!!!!!!!!!!
+      order: [["title", "ASC"]], //order: sequelize.literal(`? DESC`),
+      // { sort: sort }
+      // createdAt:
     });
     res.status(200).send(selectedGoals);
   },
+  // getSelectedGoals: async (req, res) => {
+  //   const { category, sort, complete } = req.query;
+  //   console.log("getSelGoals sort: " + sort);
+  //   const selectedGoals = await Goal.findAll({
+  //     where: { [Op.and]: [{ category: category }, { completed: complete }] }, //complete needs to be T/F!!!!!!!!!!!!!!!!!!!!!
+  //     order: [["title", "ASC"]], //order: sequelize.literal(`? DESC`),
+  //     // { sort: sort }
+  //     // attributes: ["", ""],
+  //   });
+  //   res.status(200).send(selectedGoals);
+  // },
   addGoal: async (req, res) => {
     // const { uId } = req.session;
     const uId = 1; // FIX THIS so the currently logged in user id is used!!!

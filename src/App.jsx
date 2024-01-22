@@ -1,12 +1,13 @@
 import './App.css';
 import GoalController from './components/GoalController.jsx';
-import MainNav from './components/MainNav.jsx';
+// import MainNav from './components/MainNav.jsx';
+import Navnav from './components/Navnav.jsx';
 
 function App() {
   return (
     <>
-      <MainNav/>
-      <GoalController/>
+      <Navnav />
+      <GoalController />
       <div id="footerAdd">
         <button>ADD</button>
       </div>

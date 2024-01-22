@@ -1,6 +1,6 @@
-import { Container, Nav, Navbar } from "react-bootstrap";
+import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 
-export default function MainNav({ leftLinks, appName, rightLinks}) {
+export default function MainNav({ leftLinks, rightLinks}) {
     return (
         <Navbar expand="lg" className="navbar-light">
             <Container fluid>
@@ -16,7 +16,7 @@ export default function MainNav({ leftLinks, appName, rightLinks}) {
                         </Nav.Link>
                     ))}
                 </Nav>
-                <Navbar.Brand>{ appName }</Navbar.Brand>
+                <Navbar.Brand>\\\\\\\\\\\\\\\\\\\\\\\ BACKLOGGED_____</Navbar.Brand>
                 <Nav>Right</Nav>
             </Container>
         </Navbar>

@@ -9,7 +9,7 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 export default function MainNav() {
   return (
     <>
-        <Navbar expand="false" fixed="top" className="bg-body-tertiary mb-3">
+        <Navbar expand="false" fixed="top" className="bg-body-tertiary mb-3" style={{ zIndex: 1000 }}>
             <Container fluid>
                 <Navbar.Toggle aria-controls="offcanvasNavbar-expand-false" />
                 <Navbar.Offcanvas
