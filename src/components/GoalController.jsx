@@ -1,36 +1,48 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
-import ResultsList from './ResultsList';
 import { Container, ButtonToolbar } from "react-bootstrap";
 import { MdOutlineHome, MdMenuBook, MdDesignServices, MdOutlinePercent, MdOutlinePriorityHigh } from "react-icons/md";
-import { BiCameraMovie, BiTimer } from "react-icons/bi";
+import { BiCameraMovie, BiTimer, BiBell } from "react-icons/bi";
 import { GrGamepad } from "react-icons/gr";
 import { TbCalendarTime } from "react-icons/tb";
+import { FaRegCalendarCheck } from "react-icons/fa";
+import ResultsList from './ResultsList';
+import GoalModal from "./GoalModal";
 
 
 export default function GoalController() {
 
     let goalQuery = { category: 'home', sort: 'priority', complete: false }; // or Preferences!!!!!
 
+    const [resultData, setResultData] = useState([]);
+
     useEffect(() => {
-        axios.get('/api/goals', { params: goalQuery })
-        .then((response) => {
-            setResultData(response.data)
-        })
+        const fetchData = async () => {
+            try {
+                const response = await axios.get('/api/goals', { params: goalQuery });
+                setResultData(response.data);
+            } catch (err) {
+                console.error('Error loading data: ', err);
+            }
+        };
+        fetchData();
     }, []);
 
-    const [resultData, setResultData] = useState([]);
+
     const [categoryValue, setCategoryValue] = useState('1');
     const [sortValue, setSortValue] = useState('1');
 
+    const [isModalVisible, setModalVisible] = useState(false);
+    const [goalData, setGoalData] = useState(null);
+
     const categories = [
-        { name: 'home', value: '1', icon: <MdOutlineHome /> },
-        { name: 'book', value: '2', icon: <MdMenuBook /> },
-        { name: 'project', value: '3', icon: <MdDesignServices /> },
-        { name: 'game', value: '4', icon: <GrGamepad /> },
-        { name: 'movie', value: '5', icon: <BiCameraMovie /> },
+        { name: 'home', value: '1', icon: <MdOutlineHome size={24}/> },
+        { name: 'book', value: '2', icon: <MdMenuBook size={24}/> },
+        { name: 'project', value: '3', icon: <MdDesignServices size={24}/> },
+        { name: 'game', value: '4', icon: <GrGamepad size={24}/> },
+        { name: 'movie', value: '5', icon: <BiCameraMovie size={24}/> },
     ];
 
     const sortType = [
@@ -47,13 +59,34 @@ export default function GoalController() {
         console.log("queryChange: " + JSON.stringify(queryChange));
         console.log("goalQuery: " + JSON.stringify(goalQuery));
         let endPoint = (goalQuery.category === 'home') ? '/api/goals' : '/api/goalSelect';
-        const response = await axios.get(endPoint, { params: goalQuery });
-        setResultData(response.data);
+        // const response = await axios.get(endPoint, { params: goalQuery });
+        try {
+            const response = await axios.get(endPoint, { params: goalQuery });
+            setResultData(response.data);
+            resultDataRef.current = response.data;
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+
+    const handleCardClick = (clickedGoalData) => {
+        console.log("GoalController - a card was clicked");
+        setGoalData(clickedGoalData);
+        setModalVisible(true);
+    };
+
+    const handleModalClose = () => {
+        setModalVisible(false);
+    };
+
+    const handleSaveChanges = (updatedData) => {
+        // Perform logic to save updatedData to the database
+        setModalVisible(false);
     };
 
     return(
         <>
-            <div className="mt-5 bg-light p-3">
+            <div className="mt-1 bg-light px-3 py-1">
                 <ButtonGroup size="lg" className="d-flex justify-content-between">
                     {categories.map((category, idx, icon) => (
                         <ToggleButton
@@ -75,6 +108,7 @@ export default function GoalController() {
                     ))}
                 </ButtonGroup>
             </div>
+            <div className="bg-light px-3">
             <ButtonToolbar className="d-flex justify-content-between">
                 <ButtonGroup>
                     {sortType.map((sort, idx, icon) => (
@@ -97,13 +131,22 @@ export default function GoalController() {
                     ))}
                 </ButtonGroup>
                 <div>
-                    <button>Alert</button>
-                    <button>Compl</button>
+                    <BiBell size={24}/>
+                    <FaRegCalendarCheck size={24}/>
                 </div>
             </ButtonToolbar>
+            </div>
             <ResultsList 
-                resultData={resultData}
+                resultData={resultData}  
+                onCardClick={handleCardClick}
             />
+                {isModalVisible && (
+                    <GoalModal
+                        goalData={goalData}
+                        onClose={handleModalClose}
+                        onSaveChanges={handleSaveChanges}
+                    />
+                )}
         </>
     );
 }
