@@ -19,17 +19,17 @@ const AppNavbar = () => {
   return (
     <Navbar bg="light" expand="lg" className='sticky-top'>
       <Container>
+        <Navbar.Brand href="#" className='me-auto'>\\\\\\\\\ Backlogged _____</Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" onClick={handleMenuToggle}>
           <BiMenu />
         </Navbar.Toggle>
         <Navbar.Collapse id="responsive-navbar-nav" className="collapse"> {/* Add 'collapse' class */}
-          <Nav className="me-auto">
+          <Nav className="mx-auto">
             {/* Your navigation items go here */}
             <Nav.Link href="#item1">User Info</Nav.Link>
             <Nav.Link href="#item2">Preferences</Nav.Link>
             <Nav.Link href="#item3">Log out</Nav.Link>
           </Nav>
-        <Navbar.Brand href="#" className='mx-auto'>\\\\\ Backlogged ___</Navbar.Brand>
         <Nav className="ml-auto">
           {/* Icons or buttons on the right */}
           <Button variant="link" onClick={handleLanguageClick}>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
@@ -17,6 +17,13 @@ export default function GoalController() {
     let goalQuery = { category: 'home', sort: 'priority', complete: false }; // or Preferences!!!!!
 
     const [resultData, setResultData] = useState([]);
+    const [categoryValue, setCategoryValue] = useState('1');
+    const [sortValue, setSortValue] = useState('1');
+    const [goalData, setGoalData] = useState(null);
+    const [isModalVisible, setModalVisible] = useState(false);
+    const goalStateRef = useRef();
+
+    goalStateRef.current = goalData;
 
     useEffect(() => {
         const fetchData = async () => {
@@ -30,12 +37,6 @@ export default function GoalController() {
         fetchData();
     }, []);
 
-
-    const [categoryValue, setCategoryValue] = useState('1');
-    const [sortValue, setSortValue] = useState('1');
-
-    const [isModalVisible, setModalVisible] = useState(false);
-    const [goalData, setGoalData] = useState(null);
 
     const categories = [
         { name: 'home', value: '1', icon: <MdOutlineHome size={24}/> },
@@ -62,17 +63,19 @@ export default function GoalController() {
         try {
             const response = await axios.get(endPoint, { params: goalQuery });
             setResultData(response.data);
-            resultDataRef.current = response.data;
         } catch (error) {
             console.error('Error fetching data:', error);
         }
     };
 
     const handleCardClick = (clickedGoalId) => {
-        console.log("GoalController - a card was clicked " + clickedGoalId);
         const clickedGoalData = resultData.find((goal) => goal.goal_id === clickedGoalId);
+        console.log("Clicked Goal Data:", JSON.stringify(clickedGoalData, null, 2));
         setGoalData(clickedGoalData);
+        console.log("Updated goalData state:", goalStateRef.current);
+
         setModalVisible(true);
+        console.log("Updated isModalVisible state:", isModalVisible);
     };
 
     const handleModalClose = () => {
@@ -140,13 +143,14 @@ export default function GoalController() {
                 resultData={resultData}  
                 onCardClick={handleCardClick}
             />
-                {isModalVisible && (
-                    <GoalModal
-                        goalData={goalData}
-                        onClose={handleModalClose}
-                        onSaveChanges={handleSaveChanges}
-                    />
-                )}
+            {isModalVisible && (
+                <GoalModal
+                    goalData={goalData}
+                    show={isModalVisible}
+                    onClose={handleModalClose}
+                    onSaveChanges={handleSaveChanges}
+                />
+            )}
         </>
     );
 }

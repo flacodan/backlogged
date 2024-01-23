@@ -10,6 +10,7 @@ export default function ResultsList ({ resultData, onCardClick }) {
   // };
 
   //<Card.Title style={{ pointerEvents: 'none' }}>{result.title}</Card.Title>
+  console.log("Clicked Goal Data:", JSON.stringify(resultData, null, 2));
   
   const cards = resultData.map((result) => (
     <Card 
