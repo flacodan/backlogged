@@ -16,11 +16,11 @@ export default function ResultsList ({ resultData, onCardClick }) {
       key={result.goal_id} 
       id={result.goal_id}
       className="p-3 m-1"
-      onClick={() => onCardClick(result)}
+      onClick={() => onCardClick(result.goal_id)}
     >
       <Card.Title style={{ pointerEvents: 'none' }}>{result.title}</Card.Title>
-      <Card.Subtitle>{result.goal_id}</Card.Subtitle>
-      <Card.Text>{result.description}</Card.Text>
+      <Card.Subtitle style={{ pointerEvents: 'none' }}>{result.goal_id}</Card.Subtitle>
+      <Card.Text style={{ pointerEvents: 'none' }}>{result.description}</Card.Text>
     </Card>
   ));
 

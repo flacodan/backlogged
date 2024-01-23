@@ -59,7 +59,6 @@ export default function GoalController() {
         console.log("queryChange: " + JSON.stringify(queryChange));
         console.log("goalQuery: " + JSON.stringify(goalQuery));
         let endPoint = (goalQuery.category === 'home') ? '/api/goals' : '/api/goalSelect';
-        // const response = await axios.get(endPoint, { params: goalQuery });
         try {
             const response = await axios.get(endPoint, { params: goalQuery });
             setResultData(response.data);
@@ -69,8 +68,9 @@ export default function GoalController() {
         }
     };
 
-    const handleCardClick = (clickedGoalData) => {
-        console.log("GoalController - a card was clicked");
+    const handleCardClick = (clickedGoalId) => {
+        console.log("GoalController - a card was clicked " + clickedGoalId);
+        const clickedGoalData = resultData.find((goal) => goal.goal_id === clickedGoalId);
         setGoalData(clickedGoalData);
         setModalVisible(true);
     };
