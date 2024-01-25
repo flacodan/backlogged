@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
+import { Button } from 'react-bootstrap';
 import { Container, ButtonToolbar } from "react-bootstrap";
 import { MdOutlineHome, MdMenuBook, MdDesignServices, MdOutlinePercent, MdOutlinePriorityHigh } from "react-icons/md";
 import { BiCameraMovie, BiTimer, BiBell } from "react-icons/bi";
@@ -27,7 +28,7 @@ export default function GoalController() {
     // };
 
     //getUserSortPrefs()
-    // let goalQuery = { category: 'home', sort: 'priority', complete: false };
+    
     const [goalQuery, setGoalQuery] = useState({ 
         category: 'home', 
         sort: 'priority', 
@@ -38,7 +39,7 @@ export default function GoalController() {
     const [categoryValue, setCategoryValue] = useState('1');
     const [sortValue, setSortValue] = useState('1');
     const [goalData, setGoalData] = useState(null);
-    const [isModalVisible, setModalVisible] = useState(false);
+    const [isGoalModalVisible, setGoalModalVisible] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -96,34 +97,53 @@ export default function GoalController() {
         const clickedGoalData = resultData.find((goal) => goal.goal_id === clickedGoalId);
         setGoalData(clickedGoalData);
         console.log("Clicked Goal Data:", JSON.stringify(clickedGoalData, null, 2));
-        setModalVisible(true);
+        setGoalModalVisible(true);
     };
 
     const handleModalClose = () => {
-        setModalVisible(false);
+        setGoalModalVisible(false);
     };
 
     const handleDeleteGoal = async () => {
         const prevGoalData = goalData;
         try {
             const response = await axios.delete(`/api/goal/${prevGoalData.goal_id}`);
-            setModalVisible(false);
+            setGoalModalVisible(false);
             fetchDataFromAPI(goalQuery);
         } catch (error) {
             console.error('Error updating data:', error);
         }
     }
 
-    const handleSaveChanges = async (updatedData) => {
-        const prevGoalData = goalData;
-        const mergedData = { ...prevGoalData, ...updatedData };
+    const handleAddClick = async () => {
+        // !!!!!!!! Find a way to remove/disable DELETE button from modal
+        setGoalData({});
+        setGoalModalVisible(true);
+    }
+
+    const handleAddGoal = async (updatedData) => {
         try {
-            const response = await axios.put(`/api/goal/${prevGoalData.goal_id}`, mergedData);
-            setModalVisible(false);
+            const newData = {...updatedData, complete: false};
+            const response = await axios.post(`/api/goal`, newData);
+            setGoalModalVisible(false);
             fetchDataFromAPI(goalQuery);
         } catch (error) {
             console.error('Error updating data:', error);
         }
+    };
+
+    const handleSaveChanges = async (updatedData) => {
+        if(goalData.goal_id){
+            const prevGoalData = goalData;
+            const mergedData = { ...prevGoalData, ...updatedData };
+            try {
+                const response = await axios.put(`/api/goal/${prevGoalData.goal_id}`, mergedData);
+                setGoalModalVisible(false);
+                fetchDataFromAPI(goalQuery);
+            } catch (error) {
+                console.error('Error updating data:', error);
+            }
+        } else {handleAddGoal(updatedData);}
     };
 
     return(
@@ -182,15 +202,18 @@ export default function GoalController() {
                 resultData={resultData}  
                 onCardClick={handleCardClick}
             />
-            {isModalVisible && (
+            {isGoalModalVisible && (
                 <GoalModal
                     goalData={goalData}
-                    show={isModalVisible}
+                    show={isGoalModalVisible}
                     onDelete={handleDeleteGoal}
                     onClose={handleModalClose}
                     onSaveChanges={handleSaveChanges}
                 />
             )}
+            <div>
+              <Button variant="outline-primary" className='me-auto m-3' onClick={handleAddClick}>ADD</Button>
+            </div>
         </>
     );
 }

@@ -7,7 +7,7 @@ export const goalCtrl = {
     const { category, sort, complete } = req.query;
     const allGoals = await Goal.findAll({
       where: { complete: complete },
-      // order: [],
+      // !!!!!!!!!!!!!!!!!!! order: [], !!!!!!!!!!!!!!!!!!!!!!!
     });
     res.status(200).send(allGoals);
   },
@@ -22,14 +22,24 @@ export const goalCtrl = {
     const selectedGoals = await Goal.findAll({
       where: { category: category, complete: complete },
       order: [[sort, "ASC"]],
-      // createdAt:
+      // !!!!!!!!!!!!!!!!!!!!  createdAt: !!!!!!!!!!!!!!!!!!!!!
     });
     res.status(200).send(selectedGoals);
   },
   addGoal: async (req, res) => {
     // const { uId } = req.session;
     const uId = 1; // FIX THIS so the currently logged in user id is used!!!!!!!!!!!!!!!!!!!!!!!!!!
-    const { title, description, category, complete } = req.body;
+    const {
+      title,
+      description,
+      category,
+      percent,
+      time_est,
+      due_date,
+      complete,
+      complete_date,
+      priority,
+    } = req.body;
     const user = await User.findByPk(uId);
     const goal = await user.createGoal({
       title: title,
@@ -41,13 +51,22 @@ export const goalCtrl = {
       complete: complete,
       complete_date: complete_date,
       priority: priority,
-      //user_id
     });
     res.status(200).send(goal);
   },
   updateGoalData: async (req, res) => {
     const { id } = req.params;
-    const { title, description, category, complete } = req.body;
+    const {
+      title,
+      description,
+      category,
+      percent,
+      time_est,
+      due_date,
+      complete,
+      complete_date,
+      priority,
+    } = req.body;
     Goal.update(
       {
         title: title,

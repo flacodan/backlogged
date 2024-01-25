@@ -9,7 +9,7 @@ import { MdDeleteOutline } from "react-icons/md";
 export default function GoalModal({ goalData, show, onDelete, onClose, onSaveChanges }) {  
 
     const [formData, setFormData] = useState({});
-    const [checked, setChecked] = useState(goalData.complete || false);
+    const [checked, setChecked] = useState(goalData.complete ?? false);
 
     useEffect(() => {
         // Set formData when goalData changes
@@ -25,6 +25,7 @@ export default function GoalModal({ goalData, show, onDelete, onClose, onSaveCha
         }));
     };
     
+    // !!!!!!!!!!!!!!!!!!!!!!!!!! ADD LOGIC TO HANDLE REQUIRED FIELDS !!!!!!!!!!!!!!!!!!!!!!!!!
 
     const handleSave = () => {
         onSaveChanges(formData);
@@ -46,11 +47,16 @@ export default function GoalModal({ goalData, show, onDelete, onClose, onSaveCha
                 <Modal.Body>
                     <Form>
                         <Form.Group className="mb-3" controlId="goalForm.ControlTitle">
+                            <div className='d-flex justify-content-between'>
                             <Form.Label>Title</Form.Label>
-                            <ToggleButton id="complete" type="checkbox" variant="outline-secondary" 
-                                checked={checked} 
-                                onChange={(e) => setChecked(e.currentTarget.checked)}
-                            >{<ImCheckmark2 />}</ToggleButton>
+                            {goalData.goal_id && (
+                                <ToggleButton id="complete" type="checkbox" variant="outline-secondary" 
+                                    checked={checked} 
+                                    onChange={(e) => setChecked(e.currentTarget.checked)}
+                                >{<ImCheckmark2 />}
+                                </ToggleButton>
+                            )}
+                            </div>
                             <Form.Control
                                 type='text'
                                 placeholder="Enter a short title"
@@ -163,10 +169,12 @@ export default function GoalModal({ goalData, show, onDelete, onClose, onSaveCha
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <div>
-                    <Button variant="outline-danger" onClick={onDelete}>
-                        <MdDeleteOutline />
-                    </Button>
+                    <div className='me-auto'>
+                    {goalData.goal_id && (
+                        <Button variant="outline-danger" onClick={onDelete}>
+                            <MdDeleteOutline />
+                        </Button>
+                    )}
                     </div>
                     <Button variant="outline-secondary" onClick={onClose}>
                         Close
