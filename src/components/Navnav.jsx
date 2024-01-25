@@ -17,9 +17,9 @@ const AppNavbar = () => {
   };
 //fixed="top"
   return (
-    <Navbar bg="light" expand="lg" className='sticky-top'>
-      <Container>
-        <Navbar.Brand href="#" className='me-auto'>\\\\\\\\\ Backlogged _____</Navbar.Brand>
+    <Navbar bg="light" expand="lg" className='sticky-top mx-3'>
+      {/* <Container> */}
+        <Navbar.Brand href="#" className='me-auto' style={{color:"#6c757d"}}>\\\\\\\\\\\\ Backlogged ________</Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" onClick={handleMenuToggle}>
           <BiMenu />
         </Navbar.Toggle>
@@ -32,12 +32,12 @@ const AppNavbar = () => {
           </Nav>
         <Nav className="ml-auto">
           {/* Icons or buttons on the right */}
-          <Button variant="link" onClick={handleLanguageClick}>
+          <Button variant="outline-secondary" onClick={handleLanguageClick}>
             <MdLanguage />
           </Button>
         </Nav>
         </Navbar.Collapse>
-      </Container>
+      {/* </Container> */}
     </Navbar>
   );
 };

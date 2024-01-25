@@ -6,7 +6,7 @@ export const goalCtrl = {
   getAllGoals: async (req, res) => {
     const { category, sort, complete } = req.query;
     const allGoals = await Goal.findAll({
-      where: { completed: complete }, //complete needs to be T/F!!!!!!!!!!!!!!!!!!!!!
+      where: { complete: complete },
       // order: [],
     });
     res.status(200).send(allGoals);
@@ -20,46 +20,45 @@ export const goalCtrl = {
     const { category, sort, complete } = req.query;
     console.log("getSelGoals sort: " + sort);
     const selectedGoals = await Goal.findAll({
-      where: { category: category, completed: complete }, //complete needs to be T/F!!!!!!!!!!!!!!!!!!!!!
-      order: [["title", "ASC"]], //order: sequelize.literal(`? DESC`),
-      // { sort: sort }
+      where: { category: category, complete: complete },
+      order: [[sort, "ASC"]],
       // createdAt:
     });
     res.status(200).send(selectedGoals);
   },
-  // getSelectedGoals: async (req, res) => {
-  //   const { category, sort, complete } = req.query;
-  //   console.log("getSelGoals sort: " + sort);
-  //   const selectedGoals = await Goal.findAll({
-  //     where: { [Op.and]: [{ category: category }, { completed: complete }] }, //complete needs to be T/F!!!!!!!!!!!!!!!!!!!!!
-  //     order: [["title", "ASC"]], //order: sequelize.literal(`? DESC`),
-  //     // { sort: sort }
-  //     // attributes: ["", ""],
-  //   });
-  //   res.status(200).send(selectedGoals);
-  // },
   addGoal: async (req, res) => {
     // const { uId } = req.session;
-    const uId = 1; // FIX THIS so the currently logged in user id is used!!!
-    const { title, description, category, completed } = req.body;
+    const uId = 1; // FIX THIS so the currently logged in user id is used!!!!!!!!!!!!!!!!!!!!!!!!!!
+    const { title, description, category, complete } = req.body;
     const user = await User.findByPk(uId);
     const goal = await user.createGoal({
       title: title,
       description: description,
       category: category,
-      completed: completed,
+      percent: percent,
+      time_est: time_est,
+      due_date: due_date,
+      complete: complete,
+      complete_date: complete_date,
+      priority: priority,
+      //user_id
     });
     res.status(200).send(goal);
   },
   updateGoalData: async (req, res) => {
     const { id } = req.params;
-    const { title, description, category, completed } = req.body;
+    const { title, description, category, complete } = req.body;
     Goal.update(
       {
         title: title,
         description: description,
         category: category,
-        completed: completed,
+        percent: percent,
+        time_est: time_est,
+        due_date: due_date,
+        complete: complete,
+        complete_date: complete_date,
+        priority: priority,
       },
       { where: { goal_id: id } }
     );

@@ -16,27 +16,34 @@ const usersInDB = await Promise.all(usersToCreate);
 
 const goalsInDB = await Promise.all(
   sampleData.map((goal) => {
-    const dueDate = new Date(Date.parse(goal.dueDate));
+    // Not every record has dates and can't pass null to Date.parse, so we check here
+    const due_date = goal.due_date ? new Date(Date.parse(goal.due_date)) : null;
+    const complete_date = goal.complete_date
+      ? new Date(Date.parse(goal.complete_date))
+      : null;
 
     const {
       title,
       description,
       category,
-      completed,
-      user_id,
       percent,
+      time_est,
+      complete,
       priority,
+      user_id,
     } = goal;
 
     const newGoal = Goal.create({
       title,
       description,
       category,
-      completed,
-      dueDate,
-      user_id, //usersInDB[0].userID,
       percent,
+      time_est,
+      due_date,
+      complete,
+      complete_date,
       priority,
+      user_id, //usersInDB[0].userID,
     });
 
     return newGoal;

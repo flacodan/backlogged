@@ -74,7 +74,7 @@ Goal.init(
     due_date: {
       type: DataTypes.DATE,
     },
-    completed: {
+    complete: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
     },

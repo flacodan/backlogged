@@ -1,82 +1,98 @@
 [
   {
+    "title": "Clean out the garage",
     "description": "My garage is part of a study of the second law of thermodynamics: as one goes forward in time, the net entropy (degree of disorder) of any isolated or closed system will always increase. I should consider leaving the door open in the future.",
     "category": "project",
-    "dueDate": "",
-    "completed": false,
-    "title": "Clean out the garage",
-    "user_id": 1,
     "percent": 0,
-    "priority": 8
+    "time_est": 4,
+    "due_date": "2024-04-15",
+    "complete": false,
+    "complete_date": "",
+    "priority": 8,
+    "user_id": 1
   },
   {
+    "title": "Work on my DevMountain personal proj",
     "description": "Two projects diverged in a yellow wood, and sorry I could not program both And be still sane, long I stood And spec-ed out one far as I could Till complications made me loath; Then considered the other to be fair, To just get started was my aim, Because it was late to have much care; Though it was just as complex there So both were really much the same, And me this evening sitting here, these verses won't help me code I fear, ... but starting vs code might make all the difference.",
     "category": "project",
-    "dueDate": "2024-02-01",
-    "completed": false,
-    "title": "Work on my DevMountain personal proj",
-    "user_id": 1,
     "percent": 5,
-    "priority": 10
+    "time_est": 200,
+    "due_date": "2024-02-01",
+    "complete": false,
+    "complete_date": "",
+    "priority": 10,
+    "user_id": 1
   },
   {
+    "title": "Nacho Libre",
     "description": "Because a movie with sacred tortilla chips AND wrestling priests has to be watched more often.",
     "category": "movie",
-    "dueDate": "",
-    "completed": false,
-    "title": "Nacho Libre",
-    "user_id": 1,
     "percent": 0,
-    "priority": 6
+    "time_est": 2,
+    "due_date": null,
+    "complete": false,
+    "complete_date": null,
+    "priority": 6,
+    "user_id": 1
   },
   {
+    "title": "Sea of Stars",
     "description": "Time to play an rpg",
     "category": "game",
-    "dueDate": "",
-    "completed": false,
-    "title": "Sea of Stars",
-    "user_id": 1,
     "percent": 0,
-    "priority": 4
+    "time_est": 50,
+    "due_date": null,
+    "complete": false,
+    "complete_date": null,
+    "priority": 4,
+    "user_id": 1
   },
   {
+    "title": "The Arkadians",
     "description": "It's been awhile since I read this book I loved as a kid.",
     "category": "book",
-    "dueDate": "",
-    "completed": false,
-    "title": "The Arkadians",
-    "user_id": 1,
     "percent": 0,
-    "priority": 5
+    "time_est": 4,
+    "due_date": null,
+    "complete": false,
+    "complete_date": null,
+    "priority": 5,
+    "user_id": 1
   },
   {
+    "title": "Walk on the moon",
     "description": "Walk on the moon, if it's real.",
     "category": "project",
-    "dueDate": "",
-    "completed": true,
-    "title": "Walk on the moon",
-    "user_id": 1,
     "percent": 100,
-    "priority": 2
+    "time_est": 1,
+    "due_date": null,
+    "complete": true,
+    "complete_date": "2023-01-01",
+    "priority": 2,
+    "user_id": 1
   },
   {
+    "title": "Age of Myth by Michael Sullivan",
     "description": "Read suggestion from Chris",
     "category": "book",
-    "dueDate": "",
-    "completed": false,
-    "title": "Age of Myth by Michael Sullivan",
-    "user_id": 1,
     "percent": 0,
-    "priority": 6
+    "time_est": 7,
+    "due_date": null,
+    "complete": false,
+    "complete_date": null,
+    "priority": 6,
+    "user_id": 1
   },
   {
+    "title": "Model Roland mechanism",
     "description": "Create a 3d model of the 'key-hammer' arms that keep breaking so I can 3d print replacements",
     "category": "project",
-    "dueDate": "2024-04-01",
-    "completed": false,
-    "title": "Model Roland mechanism",
-    "user_id": 1,
     "percent": 5,
-    "priority": 6
+    "time_est": 4,
+    "due_date": "2024-04-01",
+    "complete": false,
+    "complete_date": null,
+    "priority": 6,
+    "user_id": 1
   }
 ]

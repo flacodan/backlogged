@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
@@ -14,16 +14,31 @@ import GoalModal from "./GoalModal";
 
 export default function GoalController() {
 
-    let goalQuery = { category: 'home', sort: 'priority', complete: false }; // or Preferences!!!!!
+    
+    // const getUserSortPrefs = async () => {
+    //     let sortPrefs = null;
+    //     try {
+    //         // const response = await axios.get('/api/pref/1');  // Update to select by user
+    //         // sortPrefs = response.data;
+    //     } catch (error) {
+    //         console.error('Error fetching data: ', error);
+    //     };
+    //     return sortPrefs;
+    // };
+
+    //getUserSortPrefs()
+    // let goalQuery = { category: 'home', sort: 'priority', complete: false };
+    const [goalQuery, setGoalQuery] = useState({ 
+        category: 'home', 
+        sort: 'priority', 
+        complete: false 
+    });
 
     const [resultData, setResultData] = useState([]);
     const [categoryValue, setCategoryValue] = useState('1');
     const [sortValue, setSortValue] = useState('1');
     const [goalData, setGoalData] = useState(null);
     const [isModalVisible, setModalVisible] = useState(false);
-    const goalStateRef = useRef();
-
-    goalStateRef.current = goalData;
 
     useEffect(() => {
         const fetchData = async () => {
@@ -48,43 +63,67 @@ export default function GoalController() {
 
     const sortType = [
         { name: 'priority', value: '1', icon: <MdOutlinePriorityHigh /> },
-        { name: 'percent', value: '2', icon: <MdOutlinePercent /> },
-        { name: 'timeEst', value: '3', icon: <BiTimer /> },
-        { name: 'created_at', value: '4', icon: <TbCalendarTime /> },
+        { name: 'title', value: '2', icon: 'A' },
+        { name: 'percent', value: '3', icon: <MdOutlinePercent /> },
+        { name: 'time_est', value: '4', icon: <BiTimer /> },
+        { name: 'created_at', value: '5', icon: <TbCalendarTime /> },
     ];
 
     const handleQueryChange = async (queryChange) => {
-        // merge query change from button selected into goalQuery and reload list
         // if (category === 'home') {const {category, ...remainingQuery } = goalQuery;}; remainingQuery is now all but category. but I would have to remove it from the api in the controller
-        goalQuery = { ...goalQuery, ...queryChange };
+        console.log("goalQuery BEFORE: " + JSON.stringify(goalQuery));
         console.log("queryChange: " + JSON.stringify(queryChange));
-        console.log("goalQuery: " + JSON.stringify(goalQuery));
-        let endPoint = (goalQuery.category === 'home') ? '/api/goals' : '/api/goalSelect';
+        setGoalQuery((prevQuery) => {
+            const updatedQuery = { ...prevQuery, ...queryChange };
+            fetchDataFromAPI(updatedQuery);
+            console.log("goalQuery AFTER merge: " + JSON.stringify(updatedQuery));
+            return updatedQuery;
+        })
+    };
+
+    const fetchDataFromAPI = async (query) => {
+        let endPoint = (query.category === 'home') ? '/api/goals' : '/api/goalSelect';  //!!!!!!!!Modify /api/goals so sort/filter works
+        console.log("Endpoint is: " + endPoint);
         try {
-            const response = await axios.get(endPoint, { params: goalQuery });
+            const response = await axios.get(endPoint, { params: query });
             setResultData(response.data);
         } catch (error) {
             console.error('Error fetching data:', error);
         }
-    };
+    };      
 
     const handleCardClick = (clickedGoalId) => {
         const clickedGoalData = resultData.find((goal) => goal.goal_id === clickedGoalId);
-        console.log("Clicked Goal Data:", JSON.stringify(clickedGoalData, null, 2));
         setGoalData(clickedGoalData);
-        console.log("Updated goalData state:", goalStateRef.current);
-
+        console.log("Clicked Goal Data:", JSON.stringify(clickedGoalData, null, 2));
         setModalVisible(true);
-        console.log("Updated isModalVisible state:", isModalVisible);
     };
 
     const handleModalClose = () => {
         setModalVisible(false);
     };
 
-    const handleSaveChanges = (updatedData) => {
-        // Perform logic to save updatedData to the database
-        setModalVisible(false);
+    const handleDeleteGoal = async () => {
+        const prevGoalData = goalData;
+        try {
+            const response = await axios.delete(`/api/goal/${prevGoalData.goal_id}`);
+            setModalVisible(false);
+            fetchDataFromAPI(goalQuery);
+        } catch (error) {
+            console.error('Error updating data:', error);
+        }
+    }
+
+    const handleSaveChanges = async (updatedData) => {
+        const prevGoalData = goalData;
+        const mergedData = { ...prevGoalData, ...updatedData };
+        try {
+            const response = await axios.put(`/api/goal/${prevGoalData.goal_id}`, mergedData);
+            setModalVisible(false);
+            fetchDataFromAPI(goalQuery);
+        } catch (error) {
+            console.error('Error updating data:', error);
+        }
     };
 
     return(
@@ -120,7 +159,7 @@ export default function GoalController() {
                             id={`sort-${idx}`}
                             type="radio"
                             variant="outline-secondary"
-                            size="sm"
+                            size="m"
                             name={`sort-${sort.name}`}
                             value={sort.value}
                             checked={sortValue === sort.value}
@@ -133,9 +172,9 @@ export default function GoalController() {
                         </ToggleButton>
                     ))}
                 </ButtonGroup>
-                <div>
-                    <BiBell size={24}/>
-                    <FaRegCalendarCheck size={24}/>
+                <div className="bg-light">
+                    <BiBell size={24} style={{color:"#6c757d"}} className="mx-2"/>
+                    <FaRegCalendarCheck size={24} style={{color:"#6c757d"}} className="mx-1"/>
                 </div>
             </ButtonToolbar>
             </div>
@@ -147,6 +186,7 @@ export default function GoalController() {
                 <GoalModal
                     goalData={goalData}
                     show={isModalVisible}
+                    onDelete={handleDeleteGoal}
                     onClose={handleModalClose}
                     onSaveChanges={handleSaveChanges}
                 />

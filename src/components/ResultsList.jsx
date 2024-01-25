@@ -9,8 +9,7 @@ export default function ResultsList ({ resultData, onCardClick }) {
   //   alert("You clicked cardId " + cardId);
   // };
 
-  //<Card.Title style={{ pointerEvents: 'none' }}>{result.title}</Card.Title>
-  console.log("Clicked Goal Data:", JSON.stringify(resultData, null, 2));
+  //add this to css for hover effect: .card:hover {  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
   
   const cards = resultData.map((result) => (
     <Card 
