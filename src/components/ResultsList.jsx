@@ -2,12 +2,6 @@ import React from 'react';
 import { Card } from "react-bootstrap";
 
 export default function ResultsList ({ resultData, onCardClick }) {
-  
-  // const handleCardClick = (event) => {
-  //   // when a card is clicked, access the card key (the goalId) and open the goal edit modal
-  //   const cardId = event.currentTarget.id;
-  //   alert("You clicked cardId " + cardId);
-  // };
 
   //add this to css for hover effect: .card:hover {  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
   

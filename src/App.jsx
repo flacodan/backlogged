@@ -8,12 +8,16 @@ import Navnav from './components/Navnav.jsx';
 
 function App() {
   
-const [isLoginVisible, setLoginVisible] = useState(false);
+const [isLoginVisible, setLoginVisible] = useState(true);
 
-useEffect(() => {
-  //if already logged in, do nothing
-  //if not logged in, show loginModal
-}, []);
+  useEffect(() => {
+    //if already logged in, do nothing
+    //if not logged in, show loginModal
+  }, []);
+
+  const handleModalClose = () => {
+    setGoalModalVisible(false);
+  };
 
   return (
     <>
