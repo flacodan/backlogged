@@ -105,7 +105,7 @@ export default function GoalModal({ goalData, show, onDelete, onClose, onSaveCha
                             <Form.Control 
                                 type="text" 
                                 name='priority'
-                                value={formData.priority || '0'}
+                                value={formData.priority || ''}
                                 onChange={handleInputChange}
                                 disabled={checked}
                             />
@@ -118,7 +118,7 @@ export default function GoalModal({ goalData, show, onDelete, onClose, onSaveCha
                             <Form.Control 
                                 type="text" 
                                 name='time_est'
-                                value={formData.time_est || '0'}
+                                value={formData.time_est || ''}
                                 onChange={handleInputChange}
                                 disabled={checked}
                             />
@@ -144,7 +144,7 @@ export default function GoalModal({ goalData, show, onDelete, onClose, onSaveCha
                             <Form.Control 
                                 type="text" 
                                 name='percent'
-                                value={formData.percent || '0'}
+                                value={formData.percent || ''}
                                 onChange={handleInputChange}
                                 disabled={checked}
                             />

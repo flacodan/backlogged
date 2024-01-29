@@ -94,6 +94,7 @@ export default function GoalController() {
     };      
 
     const handleCardClick = (clickedGoalId) => {
+        console.log("registered card click...");
         const clickedGoalData = resultData.find((goal) => goal.goal_id === clickedGoalId);
         setGoalData(clickedGoalData);
         console.log("Clicked Goal Data:", JSON.stringify(clickedGoalData, null, 2));
