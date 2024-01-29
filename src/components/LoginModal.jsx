@@ -3,27 +3,35 @@ import Image from 'react-bootstrap/Image';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-// import "../../public/android-chrome-512x512";
 
-export default function LoginModal(isLoginVisible) {
+export default function LoginModal({ show, onCreateUser, onLogin }) {
 
     const [loginMode, setLoginMode] = useState("login");
+    const [formData, setFormData] = useState({ username: "", password: "" });
 
     const toggleLoginMode = () => {
         setLoginMode(loginMode === "login" ? "signup" : "login")
     }
-    const handleClose = () => setShow(false);
-    const handleCreateNew = () => setShow(false);
-    const handleLogin = () => setShow(false);
+    
+    const handleLogin = () => {
+        onLogin(formData);
+    };
+
+    const handleCreateUser = () => {
+        //
+        onCreateUser(formData);
+    };
+    
 
     if (loginMode === "signup") {
         return (
             <>
                 <Modal 
-                    show={isLoginVisible} 
-                    onHide={handleClose}
+                    show={show}
                     backdrop="static"
                     keyboard={false}
+                    aria-labelledby="contained-modal-title-vcenter"
+                    centered
                 >
                     <Modal.Header >
                         <Modal.Title>Sign Up</Modal.Title>
@@ -37,7 +45,7 @@ export default function LoginModal(isLoginVisible) {
                             <div className="text-center pt-3">
                                 Already registered?{" "}
                                 <span className="link-primary" onClick={toggleLoginMode}>
-                                    Sign Up
+                                    Log In
                                 </span>
                             </div>
                             <Form.Group className="mb-3 pt-3" controlId="loginForm.username">
@@ -58,7 +66,7 @@ export default function LoginModal(isLoginVisible) {
                         </Form>
                     </Modal.Body>
                     <Modal.Footer >
-                        <Button variant="secondary" onClick={handleCreateNew}>
+                        <Button variant="secondary" onClick={handleCreateUser}>
                             Submit
                         </Button>
                     </Modal.Footer>
@@ -70,8 +78,7 @@ export default function LoginModal(isLoginVisible) {
     return (
         <>
             <Modal 
-                show={isLoginVisible} 
-                onHide={handleClose}
+                show={show} 
                 backdrop="static"
                 keyboard={false}
             >

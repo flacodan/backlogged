@@ -5,9 +5,10 @@ import { Op } from "sequelize";
 export const goalCtrl = {
   getAllGoals: async (req, res) => {
     const { category, sort, complete } = req.query;
+    const sortDirection = sort == "priority" ? "DESC" : "ASC";
     const allGoals = await Goal.findAll({
       where: { complete: complete },
-      // !!!!!!!!!!!!!!!!!!! order: [], !!!!!!!!!!!!!!!!!!!!!!!
+      order: [[sort, sortDirection]],
     });
     res.status(200).send(allGoals);
   },
@@ -18,11 +19,12 @@ export const goalCtrl = {
   },
   getSelectedGoals: async (req, res) => {
     const { category, sort, complete } = req.query;
+    const sortDirection = sort == "priority" ? "DESC" : "ASC";
     console.log("getSelGoals sort: " + sort);
     const selectedGoals = await Goal.findAll({
       where: { category: category, complete: complete },
-      order: [[sort, "ASC"]],
-      // !!!!!!!!!!!!!!!!!!!!  createdAt: !!!!!!!!!!!!!!!!!!!!!
+      order: [[sort, sortDirection]],
+      // !!!!!!!!!!!!!!!!!!!!  sort by age? createdAt: !!!!!!!!!!!!!!!!!!!!!
     });
     res.status(200).send(selectedGoals);
   },
@@ -124,7 +126,14 @@ export const userCtrl = {
     await user.destroy();
     res.sendStatus(200);
   },
-  //getUserByUsername: async (req, res) => {},
+  getOrCreateUser: async (req, res) => {
+    const { username, password } = req.body;
+    const user = await User.findOrCreate({
+      where: { username: username },
+      defaults: { password: password },
+    });
+    res.status(200).send(user);
+  },
 };
 
 // PREFERENCES ENDPOINTS
@@ -151,7 +160,13 @@ export const prefCtrl = {
 
 // AUTH ENDPOINTS
 export const authCtrl = {
-  getAuthData: async (req, res) => {},
+  getAuthData: async (req, res) => {
+    const { username, password } = req.body;
+    const user = await User.findAll({
+      where: { username: username, password: password },
+    });
+    res.status(200).send(user);
+  },
   addAuthData: async (req, res) => {},
   updateAuthData: async (req, res) => {},
   deleteAuthData: async (req, res) => {},

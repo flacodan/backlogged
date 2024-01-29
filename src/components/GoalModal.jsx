@@ -41,9 +41,6 @@ export default function GoalModal({ goalData, show, onDelete, onClose, onSaveCha
         <>
             {goalData && (
                 <Modal show={show}>
-                {/* <Modal.Header>
-                    <Modal.Title>Edit your backlogged item</Modal.Title>
-                </Modal.Header> */}
                 <Modal.Body>
                     <Form>
                         <Form.Group className="mb-3" controlId="goalForm.ControlTitle">

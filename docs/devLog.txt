@@ -50,3 +50,7 @@ Manual  SEQUELIZE setup information
 // await db.sync();
 // const testUser = await User.create({ username: 'test@email.com', password: 'test' });
 // console.log(testUser);
+
+User Login
+This website seems to have a good example: https://clerk.com/blog/building-a-react-login-page-template 
+

@@ -4,10 +4,11 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import { Button } from 'react-bootstrap';
 import { Container, ButtonToolbar } from "react-bootstrap";
-import { MdOutlineHome, MdMenuBook, MdDesignServices, MdOutlinePercent, MdOutlinePriorityHigh } from "react-icons/md";
+import { MdOutlineHome, MdMenuBook, MdDesignServices, MdOutlinePriorityHigh } from "react-icons/md";
 import { BiCameraMovie, BiTimer, BiBell } from "react-icons/bi";
 import { GrGamepad } from "react-icons/gr";
 import { TbCalendarTime } from "react-icons/tb";
+import { PiChartPieSliceFill, PiArrowFatUp } from "react-icons/pi";
 import { FaRegCalendarCheck } from "react-icons/fa";
 import ResultsList from './ResultsList';
 import GoalModal from "./GoalModal";
@@ -53,7 +54,6 @@ export default function GoalController() {
         fetchData();
     }, []);
 
-
     const categories = [
         { name: 'home', value: '1', icon: <MdOutlineHome size={24}/> },
         { name: 'book', value: '2', icon: <MdMenuBook size={24}/> },
@@ -63,9 +63,9 @@ export default function GoalController() {
     ];
 
     const sortType = [
-        { name: 'priority', value: '1', icon: <MdOutlinePriorityHigh /> },
+        { name: 'priority', value: '1', icon: <PiArrowFatUp /> },
         { name: 'title', value: '2', icon: 'A' },
-        { name: 'percent', value: '3', icon: <MdOutlinePercent /> },
+        { name: 'percent', value: '3', icon: <PiChartPieSliceFill /> },
         { name: 'time_est', value: '4', icon: <BiTimer /> },
         { name: 'created_at', value: '5', icon: <TbCalendarTime /> },
     ];
@@ -116,7 +116,6 @@ export default function GoalController() {
     }
 
     const handleAddClick = async () => {
-        // !!!!!!!! Find a way to remove/disable DELETE button from modal
         setGoalData({});
         setGoalModalVisible(true);
     }

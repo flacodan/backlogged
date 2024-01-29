@@ -31,10 +31,7 @@ const AppNavbar = () => {
             <Nav.Link href="#item3">Log out</Nav.Link>
           </Nav>
         <Nav className="ml-auto">
-          {/* Icons or buttons on the right */}
-          <Button variant="outline-secondary" onClick={handleLanguageClick}>
-            <MdLanguage />
-          </Button>
+            <MdLanguage size={20} style={{color:"#6c757d"}} onClick={handleLanguageClick} />
         </Nav>
         </Navbar.Collapse>
       {/* </Container> */}

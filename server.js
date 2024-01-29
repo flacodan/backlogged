@@ -28,22 +28,24 @@ app.post("/api/goal", addGoal);
 app.put("/api/goal/:id", updateGoalData);
 app.delete("/api/goal/:id", deleteGoal);
 
-const { getUser, addUser, updateUserData, deleteUser } = userCtrl;
+const { getUser, addUser, updateUserData, deleteUser, getOrCreateUser } =
+  userCtrl;
 // USER ENDPOINTS
 app.get("/api/user/:id", getUser);
 app.post("/api/user", addUser);
 app.put("/api/user/:id", updateUserData);
 app.delete("/api/user/:id", deleteUser);
+app.post("/api/createUser", getOrCreateUser);
 
 const { getPrefs, updatePrefData } = prefCtrl;
-// AUTH ENDPOINTS
+// PREFERENCE ENDPOINTS
 app.get("/api/pref/:id", getPrefs);
 app.put("/api/pref/:id", updatePrefData);
 
 const { getAuthData, addAuthData, updateAuthData, deleteAuthData } = authCtrl;
-// AUTH ENDPOINTS
-app.get("/api/", getAuthData);
-app.post("/api/user", addAuthData);
+// AUTHORIZATION ENDPOINTS
+app.get("/api/auth", getAuthData);
+app.post("/api/createUser", addAuthData);
 app.put("/api/user/:id", updateAuthData);
 app.delete("/api/user/:id", deleteAuthData);
 
