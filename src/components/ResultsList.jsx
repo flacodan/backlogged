@@ -39,7 +39,9 @@ export default function ResultsList ({ resultData, onCardClick }) {
     >
       <Row>
         <Col>
-          <Row>{categoryIcon(result.category)}</Row>
+          <Row>
+            <Col>{categoryIcon(result.category)}</Col>
+          </Row>
           <Row>
             <Col >{<PiArrowFatUp style={{color:"#6c757d"}} />}{result.priority}</Col>
           </Row>
@@ -49,19 +51,17 @@ export default function ResultsList ({ resultData, onCardClick }) {
           <Col>
             <Row>
               <Col>
-                <Row>
                   {result.description.substring(0,60)}...
                   Est: {result.time_est} hr
-                </Row>
               </Col>
             </Row>
           </Col>
         </Col>
-        <Col xs="1">
+        <Col>
           <Row>{result.percent}%</Row>
           <Row>{calculateAge(result.createdAt)} days</Row>
         </Col>
-        <Col xs="1">
+        <Col className='d-none d-md-block'>
           <Row>{<ImCheckmark2 style={{color:"#6c757d", fontSize: '2rem'}} />}</Row>
         </Col>
       </Row>
