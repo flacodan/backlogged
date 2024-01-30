@@ -55,11 +55,11 @@ export default function GoalController() {
     }, []);
 
     const categories = [
-        { name: 'home', value: '1', icon: <MdOutlineHome size={36}/> },
-        { name: 'book', value: '2', icon: <MdMenuBook size={36}/> },
-        { name: 'project', value: '3', icon: <MdDesignServices size={36}/> },
-        { name: 'game', value: '4', icon: <GrGamepad size={36}/> },
-        { name: 'movie', value: '5', icon: <BiCameraMovie size={36}/> },
+        { name: 'home', value: '1', icon: <MdOutlineHome size={32}/> },
+        { name: 'book', value: '2', icon: <MdMenuBook size={32}/> },
+        { name: 'project', value: '3', icon: <MdDesignServices size={32}/> },
+        { name: 'game', value: '4', icon: <GrGamepad size={32}/> },
+        { name: 'movie', value: '5', icon: <BiCameraMovie size={32}/> },
     ];
 
     const sortType = [
@@ -71,7 +71,6 @@ export default function GoalController() {
     ];
 
     const handleQueryChange = async (queryChange) => {
-        // if (category === 'home') {const {category, ...remainingQuery } = goalQuery;}; remainingQuery is now all but category. but I would have to remove it from the api in the controller
         console.log("goalQuery BEFORE: " + JSON.stringify(goalQuery));
         console.log("queryChange: " + JSON.stringify(queryChange));
         setGoalQuery((prevQuery) => {
@@ -83,7 +82,7 @@ export default function GoalController() {
     };
 
     const fetchDataFromAPI = async (query) => {
-        let endPoint = (query.category === 'home') ? '/api/goals' : '/api/goalSelect';  //!!!!!!!!Modify /api/goals so sort/filter works
+        let endPoint = (query.category === 'home') ? '/api/goals' : '/api/goalSelect';
         console.log("Endpoint is: " + endPoint);
         try {
             const response = await axios.get(endPoint, { params: query });

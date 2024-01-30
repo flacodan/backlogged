@@ -18,6 +18,7 @@ Vars should look like this: REACT_APP_API_KEY=abc123
 Except it seems that in a Vite setup they should be VITE_API_KEY
 Access these in code like this: const apiKey = process.env.REACT_APP_API_KEY;
 https://vitejs.dev/guide/env-and-mode 
+https://stackoverflow.com/questions/73834404/react-uncaught-referenceerror-process-is-not-defined 
 UPDATE:
 install dotenv
 Looks like all I needed was: 

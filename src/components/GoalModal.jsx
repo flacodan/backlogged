@@ -24,6 +24,21 @@ export default function GoalModal({ goalData, show, onDelete, onClose, onSaveCha
             [name]: value,
         }));
     };
+
+    const handleChangeComplete = (checked) => {
+        console.log("Checked complete is " + checked);
+        const newComplete = checked ? {complete: false} : {complete: true};
+        // if complete date not entered, set it to today
+        let newDate = null;
+        if(!formData.complete_date){
+            newDate = {complete_date: Date.now()}
+        }
+        const newData = {...newComplete, ...newDate};
+        console.log(newData);
+        setFormData((prevData) => ({
+            ...prevData, ...newData
+        }));
+    }
     
     // !!!!!!!!!!!!!!!!!!!!!!!!!! ADD LOGIC TO HANDLE REQUIRED FIELDS !!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -47,9 +62,17 @@ export default function GoalModal({ goalData, show, onDelete, onClose, onSaveCha
                             <div className='d-flex justify-content-between'>
                             <Form.Label>Title</Form.Label>
                             {goalData.goal_id && (
-                                <ToggleButton id="complete" type="checkbox" variant="outline-secondary" 
+                                <ToggleButton 
+                                    id="complete" 
+                                    name='complete'
+                                    type="checkbox" 
+                                    variant="outline-secondary" 
                                     checked={checked} 
-                                    onChange={(e) => setChecked(e.currentTarget.checked)}
+                                    onChange={(e) => {
+                                        setChecked(e.currentTarget.checked);
+                                        handleChangeComplete(checked);
+                                        }
+                                    }
                                 >{<ImCheckmark2 />}
                                 </ToggleButton>
                             )}
@@ -60,7 +83,7 @@ export default function GoalModal({ goalData, show, onDelete, onClose, onSaveCha
                                 autoFocus
                                 name='title'
                                 // minLength="2" 
-                                // maxLength="40"
+                                // maxLength="40"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                                 value={formData.title || ''}
                                 onChange={handleInputChange}
                                 disabled={checked}
