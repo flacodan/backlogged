@@ -5,7 +5,8 @@ import { Op } from "sequelize";
 export const goalCtrl = {
   getAllGoals: async (req, res) => {
     const { category, sort, complete } = req.query;
-    const sortDirection = sort == "priority" ? "DESC" : "ASC";
+    const sortDirection =
+      sort == "priority" || sort == "created_at" ? "DESC" : "ASC";
     const allGoals = await Goal.findAll({
       where: { complete: complete },
       order: [[sort, sortDirection]],
@@ -19,12 +20,11 @@ export const goalCtrl = {
   },
   getSelectedGoals: async (req, res) => {
     const { category, sort, complete } = req.query;
-    const sortDirection = sort == "priority" ? "DESC" : "ASC";
-    console.log("getSelGoals sort: " + sort);
+    const sortDirection =
+      sort == "priority" || sort == "created_at" ? "DESC" : "ASC";
     const selectedGoals = await Goal.findAll({
       where: { category: category, complete: complete },
       order: [[sort, sortDirection]],
-      // !!!!!!!!!!!!!!!!!!!!  sort by age? createdAt: !!!!!!!!!!!!!!!!!!!!!
     });
     res.status(200).send(selectedGoals);
   },

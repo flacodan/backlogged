@@ -54,3 +54,6 @@ Manual  SEQUELIZE setup information
 User Login
 This website seems to have a good example: https://clerk.com/blog/building-a-react-login-page-template 
 
+Bootstrap grid help W3 schools
+https://www.w3schools.com/bootstrap/bootstrap_grid_examples.asp
+

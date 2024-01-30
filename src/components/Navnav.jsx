@@ -8,18 +8,14 @@ const AppNavbar = () => {
     // Implement your menu toggle logic here
   };
 
-  const handleIcon1Click = () => {
-    // Implement logic for icon 1 click
-  };
-
   const handleLanguageClick = () => {
-    // Implement logic for icon 2 click
+    // Implement logic for icon click
   };
-//fixed="top"
+  
   return (
-    <Navbar bg="light" expand="lg" className='sticky-top mx-3'>
+    <Navbar expand="fluid" className='sticky-top mx-3'>
       {/* <Container> */}
-        <Navbar.Brand href="#" className='me-auto' style={{color:"#6c757d"}}>\\\\\\\\\\\\ Backlogged ________</Navbar.Brand>
+        <Navbar.Brand href="#" className='mb-0 h1 fs-2' style={{color:"#6c757d", fontSize:'52'}}>\\\\\ Backlogged \\\\\</Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" onClick={handleMenuToggle}>
           <BiMenu />
         </Navbar.Toggle>

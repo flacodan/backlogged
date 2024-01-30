@@ -55,19 +55,19 @@ export default function GoalController() {
     }, []);
 
     const categories = [
-        { name: 'home', value: '1', icon: <MdOutlineHome size={24}/> },
-        { name: 'book', value: '2', icon: <MdMenuBook size={24}/> },
-        { name: 'project', value: '3', icon: <MdDesignServices size={24}/> },
-        { name: 'game', value: '4', icon: <GrGamepad size={24}/> },
-        { name: 'movie', value: '5', icon: <BiCameraMovie size={24}/> },
+        { name: 'home', value: '1', icon: <MdOutlineHome size={36}/> },
+        { name: 'book', value: '2', icon: <MdMenuBook size={36}/> },
+        { name: 'project', value: '3', icon: <MdDesignServices size={36}/> },
+        { name: 'game', value: '4', icon: <GrGamepad size={36}/> },
+        { name: 'movie', value: '5', icon: <BiCameraMovie size={36}/> },
     ];
 
     const sortType = [
-        { name: 'priority', value: '1', icon: <PiArrowFatUp /> },
+        { name: 'priority', value: '1', icon: <PiArrowFatUp size={20}/> },
         { name: 'title', value: '2', icon: 'A' },
-        { name: 'percent', value: '3', icon: <PiChartPieSliceFill /> },
-        { name: 'time_est', value: '4', icon: <BiTimer /> },
-        { name: 'created_at', value: '5', icon: <TbCalendarTime /> },
+        { name: 'percent', value: '3', icon: <PiChartPieSliceFill size={20}/> },
+        { name: 'time_est', value: '4', icon: <BiTimer size={20}/> },
+        { name: 'created_at', value: '5', icon: <TbCalendarTime size={20}/> },
     ];
 
     const handleQueryChange = async (queryChange) => {
@@ -170,7 +170,7 @@ export default function GoalController() {
                     ))}
                 </ButtonGroup>
             </div>
-            <div className="bg-light px-3">
+            <div className="px-3">
             <ButtonToolbar className="d-flex justify-content-between">
                 <ButtonGroup>
                     {sortType.map((sort, idx, icon) => (
@@ -181,6 +181,8 @@ export default function GoalController() {
                             variant="outline-secondary"
                             size="m"
                             name={`sort-${sort.name}`}
+                            data-toggle="tooltip" 
+                            title={`Sort by ${sort.name}`}
                             value={sort.value}
                             checked={sortValue === sort.value}
                             onChange={(e) => {
@@ -192,16 +194,21 @@ export default function GoalController() {
                         </ToggleButton>
                     ))}
                 </ButtonGroup>
-                <div className="bg-light">
+                <div>
+                    <span className="position-absolute top-30 start-90 translate-middle p-1 bg-danger border border-light rounded-circle">
+                        <span className="visually-hidden">New alerts</span>
+                    </span>
                     <BiBell size={24} style={{color:"#6c757d"}} className="mx-2"/>
                     <FaRegCalendarCheck size={24} style={{color:"#6c757d"}} className="mx-1"/>
                 </div>
             </ButtonToolbar>
             </div>
+            <div className="bg-light">
             <ResultsList 
                 resultData={resultData}  
                 onCardClick={handleCardClick}
             />
+            </div>
             {isGoalModalVisible && (
                 <GoalModal
                     goalData={goalData}
