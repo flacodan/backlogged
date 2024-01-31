@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
+import { FloatingLabel } from 'react-bootstrap';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
@@ -60,8 +61,144 @@ export default function GoalModal({ goalData, show, onDelete, onClose, onSaveCha
                     <Form>
                         <Form.Group className="mb-3" controlId="goalForm.ControlTitle">
                             <div className='d-flex justify-content-between'>
-                            <Form.Label>Title</Form.Label>
-                            {goalData.goal_id && (
+                            
+                            </div>
+                            <FloatingLabel controlId='floatingTitle' label='Title'>
+                                <Form.Control
+                                    type='text'
+                                    placeholder="Enter a short title"
+                                    autoFocus
+                                    name='title'
+                                    // minLength="2" 
+                                    // maxLength="40"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                                    value={formData.title || ''}
+                                    onChange={handleInputChange}
+                                    disabled={checked}
+                                />
+                            </FloatingLabel>
+                        </Form.Group>
+                        <Form.Group
+                            className="mb-3"
+                            controlId="goalForm.ControlDescription"
+                        >
+                            <FloatingLabel controlId='floatingDescription' label='Description'>
+                                <Form.Control 
+                                    as="textarea" 
+                                    style={{ height: '100px' }}
+                                    name='description'
+                                    value={formData.description || ''}
+                                    onChange={handleInputChange}
+                                    disabled={checked}
+                                />
+                            </FloatingLabel>
+                        </Form.Group>
+                        <Form.Group
+                            className="mb-3"
+                            controlId="goalForm.ControlCategoryDD"
+                        >
+                            <FloatingLabel controlId='floatingCategorySelect' label='Category'>
+                                <Form.Select 
+                                    aria-label='category'
+                                    value={formData.category}
+                                    onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                                    disabled={checked}
+                                >
+                                    <option value="">Select a category</option>
+                                    <option value="book">Book</option>
+                                    <option value="project">Project</option>
+                                    <option value="game">Game</option>
+                                    <option value="movie">Movie</option>
+                                </Form.Select>
+                            </FloatingLabel>
+                        </Form.Group>
+                        <Form.Group
+                            className="mb-3"
+                            controlId="goalForm.ControlPriority"
+                        >
+                            <FloatingLabel controlId='floatingPriority' label='Priority'>
+                                <Form.Control 
+                                    type="number" 
+                                    name='priority'
+                                    value={formData.priority || ''}
+                                    onChange={handleInputChange}
+                                    disabled={checked}
+                                />
+                            </FloatingLabel>
+                        </Form.Group>
+                        <Form.Group
+                            className="mb-3"
+                            controlId="goalForm.ControlTimeEst"
+                        >
+                            <FloatingLabel controlId='floatingEstimate' label='Time Estimate'>
+                                <Form.Control 
+                                    type="number" 
+                                    name='time_est'
+                                    value={formData.time_est || ''}
+                                    onChange={handleInputChange}
+                                    disabled={checked}
+                                />
+                            </FloatingLabel>
+                        </Form.Group>
+                        <Form.Group
+                            className="mb-3"
+                            controlId="goalForm.ControlDueDate"
+                        >
+                            <FloatingLabel controlId='floatingDueDate' label='Due Date'>
+                                <Form.Control 
+                                    type="date" 
+                                    name='due_date'
+                                    value={formData.due_date ? formatUIDate(formData.due_date) : ''}
+                                    onChange={handleInputChange}
+                                    disabled={checked}
+                                />
+                            </FloatingLabel>
+                        </Form.Group>
+                        <Form.Group
+                            className="mb-3"
+                            controlId="goalForm.ControlPct"
+                        >
+                            <FloatingLabel controlId='floatingPercent' label='Percent Complete'>
+                            <Form.Control 
+                                type="number" 
+                                name='percent'
+                                value={formData.percent || ''}
+                                onChange={handleInputChange}
+                                disabled={checked}
+                            />
+                            </FloatingLabel>
+                        </Form.Group>
+                        <Form.Group
+                            className="mb-3"
+                            controlId="goalForm.ControlDateCompl"
+                        >
+                            <FloatingLabel controlId='floatingCompleteDate' label='Date Completed'>
+                                <Form.Control 
+                                    type="date" 
+                                    name='complete_date'
+                                    value={ formData.complete_date ? formatUIDate(formData.complete_date) : ''}
+                                    max={new Date().toISOString().slice(0, 10)}
+                                    onChange={handleInputChange}
+                                    disabled={checked}
+                                />
+                            </FloatingLabel>
+                        </Form.Group>
+                    </Form>
+                </Modal.Body>
+                <Modal.Footer>
+                    <div className='me-auto'>
+                    {goalData.goal_id && (
+                        <Button 
+                            variant="outline-danger" 
+                            data-toggle="tooltip" 
+                            title={`Delete`}
+                            disabled={checked}
+                            onClick={onDelete}
+                        >
+                            <MdDeleteOutline />
+                        </Button>
+                    )}
+                    </div>
+                    {goalData.goal_id && (
                                 <ToggleButton 
                                     id="complete" 
                                     name='complete'
@@ -73,134 +210,14 @@ export default function GoalModal({ goalData, show, onDelete, onClose, onSaveCha
                                         handleChangeComplete(checked);
                                         }
                                     }
-                                >{<ImCheckmark2 />}
+                                >{<ImCheckmark2 />} Complete
                                 </ToggleButton>
                             )}
-                            </div>
-                            <Form.Control
-                                type='text'
-                                placeholder="Enter a short title"
-                                autoFocus
-                                name='title'
-                                // minLength="2" 
-                                // maxLength="40"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                                value={formData.title || ''}
-                                onChange={handleInputChange}
-                                disabled={checked}
-                            />
-                        </Form.Group>
-                        <Form.Group
-                            className="mb-3"
-                            controlId="goalForm.ControlDescription"
-                        >
-                            <Form.Label>Description</Form.Label>
-                            <Form.Control 
-                                as="textarea" 
-                                rows={3} 
-                                name='description'
-                                value={formData.description || ''}
-                                onChange={handleInputChange}
-                                disabled={checked}
-                            />
-                        </Form.Group>
-                        <Form.Group
-                            className="mb-3"
-                            controlId="goalForm.ControlCategoryDD"
-                        >
-                            <Form.Select 
-                                aria-label='category'
-                                value={formData.category}
-                                onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                                disabled={checked}
-                            >
-                                <option value="">Select a category</option>
-                                <option value="book">Book</option>
-                                <option value="project">Project</option>
-                                <option value="game">Game</option>
-                                <option value="movie">Movie</option>
-                            </Form.Select>
-                        </Form.Group>
-                        <Form.Group
-                            className="mb-3"
-                            controlId="goalForm.ControlPriority"
-                        >
-                            <Form.Label>Priority</Form.Label>
-                            <Form.Control 
-                                type="text" 
-                                name='priority'
-                                value={formData.priority || ''}
-                                onChange={handleInputChange}
-                                disabled={checked}
-                            />
-                        </Form.Group>
-                        <Form.Group
-                            className="mb-3"
-                            controlId="goalForm.ControlTimeEst"
-                        >
-                            <Form.Label>Time Est</Form.Label>
-                            <Form.Control 
-                                type="text" 
-                                name='time_est'
-                                value={formData.time_est || ''}
-                                onChange={handleInputChange}
-                                disabled={checked}
-                            />
-                        </Form.Group>
-                        <Form.Group
-                            className="mb-3"
-                            controlId="goalForm.ControlDueDate"
-                        >
-                            <Form.Label>Due date</Form.Label>
-                            <Form.Control 
-                                type="date" 
-                                name='due_date'
-                                value={formData.due_date ? formatUIDate(formData.due_date) : ''}
-                                onChange={handleInputChange}
-                                disabled={checked}
-                            />
-                        </Form.Group>
-                        <Form.Group
-                            className="mb-3"
-                            controlId="goalForm.ControlPct"
-                        >
-                            <Form.Label>Percent</Form.Label>
-                            <Form.Control 
-                                type="text" 
-                                name='percent'
-                                value={formData.percent || ''}
-                                onChange={handleInputChange}
-                                disabled={checked}
-                            />
-                        </Form.Group>
-                        <Form.Group
-                            className="mb-3"
-                            controlId="goalForm.ControlDateCompl"
-                        >
-                            <Form.Label>Date Completed</Form.Label>
-                            <Form.Control 
-                                type="date" 
-                                name='complete_date'
-                                value={ formData.complete_date ? formatUIDate(formData.complete_date) : ''}
-                                max={new Date().toISOString().slice(0, 10)}
-                                onChange={handleInputChange}
-                                disabled={checked}
-                            />
-                        </Form.Group>
-                    </Form>
-                </Modal.Body>
-                <Modal.Footer>
-                    <div className='me-auto'>
-                    {goalData.goal_id && (
-                        <Button variant="outline-danger" onClick={onDelete}>
-                            <MdDeleteOutline />
-                        </Button>
-                    )}
-                    </div>
                     <Button variant="outline-secondary" onClick={onClose}>
                         Close
                     </Button>
                     <Button variant="outline-primary" onClick={handleSave}>
-                        Save Changes
+                        Save
                     </Button>
                 </Modal.Footer>
                 </Modal>

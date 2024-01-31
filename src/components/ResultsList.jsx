@@ -4,7 +4,7 @@ import { PiArrowFatUp } from "react-icons/pi";
 import { MdMenuBook, MdDesignServices, MdOutlinePriorityHigh } from "react-icons/md";
 import { BiCameraMovie } from "react-icons/bi";
 import { GrGamepad } from "react-icons/gr";
-import { ImCheckmark2, ImCheckmark } from "react-icons/im";
+import { ImCheckmark2, ImCheckmark, ImCheckboxChecked } from "react-icons/im";
 
 export default function ResultsList ({ resultData, onCardClick }) {
 
@@ -73,7 +73,12 @@ export default function ResultsList ({ resultData, onCardClick }) {
           <Row>{calculateAge(result.createdAt)} days</Row>
         </Col>
         <Col className='d-none d-md-block'>
-          <Button className='border-0 bg-transparent' onClick={(event) => { handleSetComplete(event) }}>{<ImCheckmark2 style={{color:"#6c757d", fontSize: '2rem'}} />}</Button>
+          <Button 
+            className='border-0 bg-transparent' 
+            onClick={(event) => { handleSetComplete(event) }}
+          >
+              { result.complete ? <ImCheckboxChecked /> : <ImCheckmark2 style={{color:"#6c757d", fontSize: '2rem'}} />}
+          </Button>
         </Col>
       </Row>
     </Card>

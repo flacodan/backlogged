@@ -9,9 +9,8 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 export default function MainNav() {
   return (
     <>
-        <Navbar expand="false" fixed="top" className="bg-body-tertiary mb-3" style={{ zIndex: 1000 }}>
+        <Navbar expand="false" fixed="top" className="bg-body-tertiary mb-3" >
             <Container fluid>
-                <Navbar.Toggle aria-controls="offcanvasNavbar-expand-false" />
                 <Navbar.Offcanvas
                     aria-labelledby="offcanvasNavbarLabel-expand-false"
                     placement="start"
@@ -38,7 +37,7 @@ export default function MainNav() {
                         </Form>
                     </Offcanvas.Body>
                 </Navbar.Offcanvas>
-                <Navbar.Brand href="#">\\\\\\\\ Backlogged _______</Navbar.Brand>
+                <Navbar.Brand href="#">\\\\\\ Backlogged \\\\\\</Navbar.Brand>
             </Container>
         </Navbar>
     </>

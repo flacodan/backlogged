@@ -63,11 +63,11 @@ export default function GoalController() {
     ];
 
     const sortType = [
-        { name: 'priority', value: '1', icon: <PiArrowFatUp size={20}/> },
+        { name: 'priority', value: '1', icon: <PiArrowFatUp size={18}/> },
         { name: 'title', value: '2', icon: 'A' },
-        { name: 'percent', value: '3', icon: <PiChartPieSliceFill size={20}/> },
-        { name: 'time_est', value: '4', icon: <BiTimer size={20}/> },
-        { name: 'created_at', value: '5', icon: <TbCalendarTime size={20}/> },
+        { name: 'percent', value: '3', icon: <PiChartPieSliceFill size={18}/> },
+        { name: 'time_est', value: '4', icon: <BiTimer size={18}/> },
+        { name: 'created_at', value: '5', icon: <TbCalendarTime size={18}/> },
     ];
 
     const handleQueryChange = async (queryChange) => {
@@ -147,7 +147,7 @@ export default function GoalController() {
 
     return(
         <>
-            <div className="mt-1 bg-light px-3 py-1">
+            <div className="mt-1 px-3 py-1">
                 <ButtonGroup size="lg" className="d-flex justify-content-between">
                     {categories.map((category, idx, icon) => (
                         <ToggleButton
@@ -170,15 +170,14 @@ export default function GoalController() {
                 </ButtonGroup>
             </div>
             <div className="px-3">
-            <ButtonToolbar className="d-flex justify-content-between">
-                <ButtonGroup>
+                <ButtonGroup className="xs-6">
                     {sortType.map((sort, idx, icon) => (
                         <ToggleButton
                             key={idx}
                             id={`sort-${idx}`}
                             type="radio"
                             variant="outline-secondary"
-                            size="m"
+                            size="xs"
                             name={`sort-${sort.name}`}
                             data-toggle="tooltip" 
                             title={`Sort by ${sort.name}`}
@@ -192,15 +191,25 @@ export default function GoalController() {
                             {sort.icon}
                         </ToggleButton>
                     ))}
+                    <ToggleButton variant="secondary" disabled></ToggleButton>
+                    <ToggleButton
+                        variant="outline-secondary"
+                        size="xs"
+                        type="checkbox"
+                        data-toggle="tooltip" 
+                        title={`Show completed`}
+                        checked={ goalQuery.complete }
+                        onClick={() => {
+                            handleQueryChange({ complete: !goalQuery.complete })
+                        }}
+                    >
+                        <FaRegCalendarCheck size={18} className="mx-1"/>
+                    </ToggleButton>
+                </ButtonGroup>
+                <ButtonGroup>
                 </ButtonGroup>
                 <div>
-                    <span className="position-absolute top-30 start-90 translate-middle p-1 bg-danger border border-light rounded-circle">
-                        <span className="visually-hidden">New alerts</span>
-                    </span>
-                    <BiBell size={24} style={{color:"#6c757d"}} className="mx-2"/>
-                    <FaRegCalendarCheck size={24} style={{color:"#6c757d"}} className="mx-1"/>
                 </div>
-            </ButtonToolbar>
             </div>
             <div className="bg-light">
             <ResultsList 
@@ -217,8 +226,8 @@ export default function GoalController() {
                     onSaveChanges={handleSaveChanges}
                 />
             )}
-            <div>
-              <Button variant="outline-primary" className='me-auto m-3' onClick={handleAddClick}>ADD</Button>
+            <div className="d-grid gap-2 m-3">
+              <Button variant="outline-secondary" onClick={handleAddClick}>ADD</Button>
             </div>
         </>
     );

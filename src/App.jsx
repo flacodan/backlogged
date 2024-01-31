@@ -3,9 +3,9 @@ import axios from "axios";
 import './App.css';
 import LoginModal from './components/LoginModal.jsx';
 import GoalController from './components/GoalController.jsx';
-// import MainNav from './components/MainNav.jsx';
-import Navnav from './components/AppNavbar.jsx';
-// import MyNav from './components/MyNav.jsx';
+import MainNav from './components/MainNav.jsx';
+import AppNavbar from './components/AppNavbar.jsx';
+import ExNavbar from './components/MyNav.jsx';
 
 function App() {
   
@@ -56,7 +56,7 @@ const [isLoginVisible, setLoginVisible] = useState(false);
               onLogin={handleLogin}
           />
       )}
-      <Navnav />
+      <ExNavbar />
       {!isLoginVisible && (
         <GoalController />
       )}
