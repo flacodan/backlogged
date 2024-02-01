@@ -1,4 +1,5 @@
 import express from "express";
+import session from "express-session";
 import ViteExpress from "vite-express";
 import { authCtrl, userCtrl, goalCtrl, prefCtrl } from "./src/controller.js";
 import dotenv from "dotenv";
@@ -11,6 +12,24 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 ViteExpress.config({ printViteDevServerHost: true });
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    saveUninitialized: true,
+    resave: false,
+    rolling: true,
+    cookie: {
+      httpOnly: true,
+      maxAge: +process.env.SESSION_MAX_AGE,
+    },
+  })
+);
+
+// !!!!!!! Delete this, just to test sessions !!!!!!!!!!!!!!!!!!!!!
+app.use((req, res, next) => {
+  console.log(req.session);
+  next();
+});
 
 const {
   getAllGoals,

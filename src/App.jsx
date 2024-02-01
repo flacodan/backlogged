@@ -12,7 +12,7 @@ function App() {
 const [isLoginVisible, setLoginVisible] = useState(false);
 
   useEffect(() => {
-    //if already logged in, do nothing
+    //if already logged in, make sure user's data is shown, don't show loginmodal
     //if not logged in, show loginModal
   }, []);
 
@@ -21,11 +21,11 @@ const [isLoginVisible, setLoginVisible] = useState(false);
     try {
       const response = await axios.post(`/api/createUser`, formData);
       console.log("Tried to create " + formData + " response: " + response.data); //if returns true, user did not exist, created it!!!!!!!!!!!!!!
-      setLoginVisible(false);
-      // show success banner
+      // if session user is created, hide login and load page with users items
       //if false, notify user that the user already exists, change to login screen!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      setLoginVisible(false);
     } catch (error) {
-        console.error('Error updating data:', error);
+        console.error('Error creating user:', error);
     };
   };
 
@@ -37,6 +37,7 @@ const [isLoginVisible, setLoginVisible] = useState(false);
         // if incorrect, warn user to try again: window.confirm("An account does not exist with this email address: " + email);
       } else {
         // if correct, set some session or state or something with userId and set LoginVisible to false
+        // load page using prefs!!!!!!!!!!!!!!!!!!!!!
         setLoginVisible(false);
       }
     } catch (error) {

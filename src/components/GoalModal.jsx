@@ -27,7 +27,6 @@ export default function GoalModal({ goalData, show, onDelete, onClose, onSaveCha
     };
 
     const handleChangeComplete = (checked) => {
-        console.log("Checked complete is " + checked);
         const newComplete = checked ? {complete: false} : {complete: true};
         // if complete date not entered, set it to today
         let newDate = null;
@@ -41,6 +40,7 @@ export default function GoalModal({ goalData, show, onDelete, onClose, onSaveCha
         }));
     }
     
+    // !!!!!!!!!!!!!!!!!!!!!!!! Must revert data if CLOSE is clicked !!!!!!!!!!!!!!!!!!!!!!!!!!
     // !!!!!!!!!!!!!!!!!!!!!!!!!! ADD LOGIC TO HANDLE REQUIRED FIELDS !!!!!!!!!!!!!!!!!!!!!!!!!
 
     const handleSave = () => {

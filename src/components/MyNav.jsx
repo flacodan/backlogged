@@ -6,8 +6,9 @@ import { MdLanguage } from "react-icons/md";
 const ExNavbar = () => {
 
   const handleLanguageClick = () => {
-    // Implement logic for icon click
+    // do stuff here
   };
+  
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -15,11 +16,14 @@ const ExNavbar = () => {
   
   return (
     <Navbar expand="fluid" className='sticky-top mx-3 justify-content-between'>
-        <button variant="outline-secondary" className="navbar-toggler-icon" onClick={handleShow}>
+        <button 
+            variant="outline-secondary" 
+            className="navbar-toggler-icon" 
+            onClick={handleShow}>
         </button>
         <Offcanvas show={show} onHide={handleClose}>
             <Offcanvas.Header closeButton>
-                <Offcanvas.Title>Offcanvas</Offcanvas.Title>
+                <Offcanvas.Title>\\\\ Backlogged Menu</Offcanvas.Title>
             </Offcanvas.Header>
             <Offcanvas.Body>
                 <Nav className="mx-auto">

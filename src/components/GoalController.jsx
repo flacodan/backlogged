@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
-import { Button } from 'react-bootstrap';
+import { Button, Alert } from 'react-bootstrap';
 import { Container, ButtonToolbar } from "react-bootstrap";
 import { MdOutlineHome, MdMenuBook, MdDesignServices, MdOutlinePriorityHigh } from "react-icons/md";
 import { BiCameraMovie, BiTimer, BiBell } from "react-icons/bi";
@@ -113,7 +113,26 @@ export default function GoalController() {
         } catch (error) {
             console.error('Error updating data:', error);
         }
-    }
+    }      
+
+    const handleCompleteClick = async (event, clickedGoalId) => {
+      const clickedGoalData = resultData.find((goal) => goal.goal_id === clickedGoalId);
+      if(!clickedGoalData.complete){
+        let newDate = null;
+        if(!clickedGoalData.complete_date){
+            newDate = {complete_date: Date.now()}
+        }
+        const newComplete = { complete: true };
+        const mergedData = {...newComplete, ...newDate, percent: 100 };
+        try {
+                const response = await axios.put(`/api/goal/${clickedGoalId}`, mergedData);
+                fetchDataFromAPI(goalQuery);
+            } catch (error) {
+                console.error('Error updating data:', error);
+            }
+        // !!!!!!!!!!!!!!!!send alert to verify the action!!!!!!!!!!!!!!!!!!!!!!
+      }
+    };
 
     const handleAddClick = async () => {
         setGoalData({});
@@ -215,6 +234,7 @@ export default function GoalController() {
             <ResultsList 
                 resultData={resultData}  
                 onCardClick={handleCardClick}
+                onClickComplete={handleCompleteClick}
             />
             </div>
             {isGoalModalVisible && (

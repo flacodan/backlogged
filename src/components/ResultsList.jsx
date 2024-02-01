@@ -6,7 +6,7 @@ import { BiCameraMovie } from "react-icons/bi";
 import { GrGamepad } from "react-icons/gr";
 import { ImCheckmark2, ImCheckmark, ImCheckboxChecked } from "react-icons/im";
 
-export default function ResultsList ({ resultData, onCardClick }) {
+export default function ResultsList ({ resultData, onCardClick, onClickComplete }) {
 
   //add this to css for hover effect: .card:hover {  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
 
@@ -20,26 +20,19 @@ export default function ResultsList ({ resultData, onCardClick }) {
   function categoryIcon(category){
     const index = categories.findIndex(x => x.name === category);
     return categories[index].icon;
-  }
+  };
 
   // Find age of an entry in days
   const calculateAge = (dateString) => {
     const dateObject = new Date(dateString);
     const dateMilli = dateObject.getTime();
     return Math.round((Date.now() - dateMilli)/(1000*60*60*24));
-  }      
-
-  const handleSetComplete = (event) => {
-    const clickedGoalId = event.currentTarget.value;
-    const clickedGoalData = resultData.find((goal) => goal.goal_id === clickedGoalId);
-    // check to see if this is already complete
-    // send alert to verify the action
-    // if it ISN'T complete, set complete to true, set complete_date to today, save and reload list
-    console.log("Clicked Goal to Complete:", JSON.stringify(clickedGoalData, null, 2));
-    event.stopPropagation();
   };
 
-  // !!!!!!!!!!!!!!!! Set complete icon depending on boolean !!!!!!!!!!!!!!!!!!!!!!
+  const clickComplete = (event, goal_id) => {    
+    event.stopPropagation();
+    onClickComplete(event, goal_id);
+  }
   
   const cards = resultData.map((result) => (
     <Card 
@@ -75,9 +68,10 @@ export default function ResultsList ({ resultData, onCardClick }) {
         <Col className='d-none d-md-block'>
           <Button 
             className='border-0 bg-transparent' 
-            onClick={(event) => { handleSetComplete(event) }}
+            onClick={(event) => { clickComplete(event, result.goal_id) }}
+            disabled = { result.complete ? true : false }
           >
-              { result.complete ? <ImCheckboxChecked /> : <ImCheckmark2 style={{color:"#6c757d", fontSize: '2rem'}} />}
+              { result.complete ? <ImCheckboxChecked style={{color:"#6c757d", fontSize: '3rem'}} /> : <ImCheckmark2 style={{color:"#6c757d", fontSize: '2rem'}} />}
           </Button>
         </Col>
       </Row>

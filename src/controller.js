@@ -162,9 +162,14 @@ export const prefCtrl = {
 export const authCtrl = {
   getAuthData: async (req, res) => {
     const { username, password } = req.body;
-    const user = await User.findAll({
+    const user = await User.findOne({
       where: { username: username, password: password },
     });
+
+    if (!user) {
+      return res.status(403);
+    }
+    req.session.user = username;
     res.status(200).send(user);
   },
   addAuthData: async (req, res) => {},
