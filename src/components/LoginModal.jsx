@@ -13,13 +13,41 @@ export default function LoginModal({ show, onCreateUser, onLogin }) {
         setLoginMode(loginMode === "login" ? "signup" : "login")
     }
     
-    const handleLogin = () => {
-        onLogin(formData);
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
     };
 
-    const handleCreateUser = () => {
-        //
-        onCreateUser(formData);
+    // !!!! Add more useful validation to verify username is a valid email and password a minimum length !!!!!
+    const checkInput = () => {
+        if(!formData.password || !formData.username){
+            console.log("Username and password are required.");
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    const handleLoginClick = (event) => {
+        event.preventDefault();
+        console.log("FormData " + formData);
+        console.log("In login ", JSON.stringify(formData, null, 2));
+        console.log("Username: " + formData.username);
+        if(checkInput()) {
+            console.log("passed check input");
+            onLogin(formData);
+        };
+    };
+
+    const handleCreateUserClick = (event) => {
+        event.preventDefault();
+        console.log("In create user ", JSON.stringify(formData, null, 2));
+        if(checkInput()) {
+            onCreateUser(formData);
+        };
     };
     
 
@@ -52,7 +80,9 @@ export default function LoginModal({ show, onCreateUser, onLogin }) {
                                 <Form.Label>Email address</Form.Label>
                                 <Form.Control
                                     type="email"
+                                    name='username'
                                     placeholder="name@example.com"
+                                    onChange={handleInputChange}
                                     autoFocus
                                 />
                             </Form.Group>
@@ -61,12 +91,16 @@ export default function LoginModal({ show, onCreateUser, onLogin }) {
                                 controlId="loginForm.password"
                             >
                                 <Form.Label>Password</Form.Label>
-                                <Form.Control type="password" />
+                                <Form.Control 
+                                    type="password" 
+                                    name='password'
+                                    onChange={handleInputChange}
+                                />
                             </Form.Group>
                         </Form>
                     </Modal.Body>
                     <Modal.Footer >
-                        <Button variant="secondary" onClick={handleCreateUser}>
+                        <Button variant="secondary" onClick={handleCreateUserClick}>
                             Submit
                         </Button>
                     </Modal.Footer>
@@ -78,9 +112,11 @@ export default function LoginModal({ show, onCreateUser, onLogin }) {
     return (
         <>
             <Modal 
-                show={show} 
+                show={show}
                 backdrop="static"
                 keyboard={false}
+                aria-labelledby="contained-modal-title-vcenter"
+                centered
             >
                 <Modal.Header >
                     <Modal.Title>Log In</Modal.Title>
@@ -97,20 +133,26 @@ export default function LoginModal({ show, onCreateUser, onLogin }) {
                                 Sign Up
                             </span>
                         </div>
-                        <Form.Group className="mb-3 pt-3" controlId="loginForm.username">
+                        <Form.Group className="mb-3 pt-3" controlId="registerForm.username">
                             <Form.Label>Email address</Form.Label>
                             <Form.Control
-                            type="email"
-                            placeholder="name@example.com"
-                            autoFocus
+                                type="email"
+                                name='username'
+                                placeholder="name@example.com"
+                                onChange={handleInputChange}
+                                autoFocus
                             />
                         </Form.Group>
                         <Form.Group
                             className="mb-3"
-                            controlId="loginForm.password"
+                            controlId="registerForm.password"
                         >
                             <Form.Label>Password</Form.Label>
-                            <Form.Control type="password" />
+                            <Form.Control 
+                                type="password" 
+                                name='password'
+                                onChange={handleInputChange}
+                            />
                         </Form.Group>
                     </Form>
                 </Modal.Body>
@@ -120,7 +162,7 @@ export default function LoginModal({ show, onCreateUser, onLogin }) {
                             Forgot <a href="#">password?</a>
                         </p>
                     </div>
-                    <Button variant="secondary" onClick={handleLogin}>
+                    <Button variant="secondary" onClick={handleLoginClick}>
                         Log In
                     </Button>
                 </Modal.Footer>

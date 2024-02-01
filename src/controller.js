@@ -5,17 +5,19 @@ import { Op } from "sequelize";
 export const goalCtrl = {
   getAllGoals: async (req, res) => {
     const { category, sort, complete } = req.query;
+    const { user } = req.session;
+    // console.log("api user " + user.username);
     const sortDirection =
       sort == "priority" || sort == "created_at" ? "DESC" : "ASC";
     const allGoals = await Goal.findAll({
-      where: { complete: complete },
+      where: { complete: complete }, //, userId: user.user_id
       order: [[sort, sortDirection]],
     });
     res.status(200).send(allGoals);
   },
   getGoal: async (req, res) => {
     const { id } = req.params;
-    const goal = await Goal.findByPk(id);
+    const goal = await Goal.findByPk(id); // const { user } = req.session !!!!!!!!!!!!!!!!
     res.status(200).send(goal);
   },
   getSelectedGoals: async (req, res) => {
@@ -23,13 +25,13 @@ export const goalCtrl = {
     const sortDirection =
       sort == "priority" || sort == "created_at" ? "DESC" : "ASC";
     const selectedGoals = await Goal.findAll({
-      where: { category: category, complete: complete },
+      where: { category: category, complete: complete }, // const { user } = req.session !!!!!!!!!!!!!!!!
       order: [[sort, sortDirection]],
     });
     res.status(200).send(selectedGoals);
   },
   addGoal: async (req, res) => {
-    // const { uId } = req.session;
+    // const { user_id } = req.session;
     const uId = 1; // FIX THIS so the currently logged in user id is used!!!!!!!!!!!!!!!!!!!!!!!!!!
     const {
       title,
@@ -139,7 +141,7 @@ export const userCtrl = {
 // PREFERENCES ENDPOINTS
 export const prefCtrl = {
   getPrefs: async (req, res) => {
-    const { id } = req.params;
+    const { id } = req.params; // const { user } = req.session !!!!!!!!!!!!!!!!
     const user = await User.findByPk(id);
     const prefs = await user.getPreference();
     res.status(200).send(prefs);
@@ -160,8 +162,14 @@ export const prefCtrl = {
 
 // AUTH ENDPOINTS
 export const authCtrl = {
+  checkSessionUser: async (req, res) => {
+    const { user } = req.session;
+    console.log("in checkSession endpoint " + req.session);
+    res.send(user ? user : false);
+  },
   getAuthData: async (req, res) => {
     const { username, password } = req.body;
+    console.log("Server side user: " + username + " pass: " + password);
     const user = await User.findOne({
       where: { username: username, password: password },
     });
@@ -169,10 +177,18 @@ export const authCtrl = {
     if (!user) {
       return res.status(403);
     }
-    req.session.user = username;
+    req.session.user = { username: username, user_id: user.user_id }; // !!!!!!! Probably add uId to session as well
+    console.log("getAuthData " + req.session.user);
     res.status(200).send(user);
   },
   addAuthData: async (req, res) => {},
   updateAuthData: async (req, res) => {},
-  deleteAuthData: async (req, res) => {},
+  deleteAuthData: async (req, res) => {
+    if (!req.session.user) {
+      res.status(401);
+    } else {
+      req.session.destroy;
+      res.send(200);
+    }
+  },
 };

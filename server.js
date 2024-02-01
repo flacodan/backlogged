@@ -31,6 +31,15 @@ app.use((req, res, next) => {
   next();
 });
 
+export const loginRequired = (req, res, next) => {
+  const { user } = req.session;
+  if (!user) {
+    res.status(401);
+  } else {
+    next();
+  }
+};
+
 const {
   getAllGoals,
   getGoal,
@@ -61,12 +70,19 @@ const { getPrefs, updatePrefData } = prefCtrl;
 app.get("/api/pref/:id", getPrefs);
 app.put("/api/pref/:id", updatePrefData);
 
-const { getAuthData, addAuthData, updateAuthData, deleteAuthData } = authCtrl;
+const {
+  checkSessionUser,
+  getAuthData,
+  addAuthData,
+  updateAuthData,
+  deleteAuthData,
+} = authCtrl;
 // AUTHORIZATION ENDPOINTS
-app.get("/api/auth", getAuthData);
+app.get("/api/checkSession", checkSessionUser);
+app.post("/api/auth", getAuthData);
 app.post("/api/createUser", addAuthData);
 app.put("/api/user/:id", updateAuthData);
-app.delete("/api/user/:id", deleteAuthData);
+app.post("/api/logout", deleteAuthData);
 
 ViteExpress.listen(app, port, () => {
   console.log(`Server is listening http://localhost:${port}`);

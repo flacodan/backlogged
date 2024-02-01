@@ -12,8 +12,26 @@ function App() {
 const [isLoginVisible, setLoginVisible] = useState(false);
 
   useEffect(() => {
-    //if already logged in, make sure user's data is shown, don't show loginmodal
-    //if not logged in, show loginModal
+    console.log("Loading app.jsx in useeffect");
+    const checkForUserSession = async () => {
+      try {
+          const response = await axios.get('/api/checkSession');
+          console.log("useEffect after api call: userSession? " + response.data);
+          setLoginVisible(response.data ? false : true);
+      } catch (err) {
+          console.error('Error loading data: ', err);
+      }
+  };
+  checkForUserSession();
+    // if(checkForUserSession()){
+    //   console.log("useEffect: session user exists");
+    //   //if already logged in, make sure user's data is shown, don't show loginmodal
+    //   setLoginVisible(false);
+    // } else {
+    //   console.log("useEffect: no session user");
+    //   //if not logged in, show loginModal
+    //   setLoginVisible(true);
+    // }
   }, []);
 
   const handleCreateUser = async (formData) => {
@@ -31,12 +49,17 @@ const [isLoginVisible, setLoginVisible] = useState(false);
 
   const handleLogin = async (formData) => {
     try {
-      const response = await axios.get(`/api/auth`, formData);
+      console.log("in App handle login ", JSON.stringify(formData, null, 2));
+      const response = await axios.post(`/api/auth`, formData);
+      
+      console.log("App.handleLogin formdata sent to api ", JSON.stringify(formData, null, 2));
+      console.log(response);
       if(response.length === 0){
+        console.log("App.handleLogin bad response" + JSON.stringify(response.data));
         // or window.alert("Wrong email or password")
         // if incorrect, warn user to try again: window.confirm("An account does not exist with this email address: " + email);
       } else {
-        // if correct, set some session or state or something with userId and set LoginVisible to false
+        console.log("App.handleLogin Success!" + JSON.stringify(response.data));
         // load page using prefs!!!!!!!!!!!!!!!!!!!!!
         setLoginVisible(false);
       }
@@ -46,7 +69,15 @@ const [isLoginVisible, setLoginVisible] = useState(false);
     // Use a better way to handle a user that reloads page, state will reset!!!!!!!!! Use a session variable!!!!!!!!!!!!!
   };
 
-  // !!!!!!!!!! Logout function needed somewhere... set logged in to false or whatever method I used !!!!!!!!!!!!!!!!
+  const handleLogout = async () => {
+    try {
+      const response = await axios.post('/api/logout');
+      // if status 200, then send success alert and reload page (hiding results and showing modal)
+      // console.log("Yikes! How did you do this? Stop it.");
+    } catch (error) {
+      console.error('Error logging out:', error);
+    }
+  }
 
   return (
     <>
@@ -57,7 +88,9 @@ const [isLoginVisible, setLoginVisible] = useState(false);
               onLogin={handleLogin}
           />
       )}
-      <ExNavbar />
+      <ExNavbar 
+        onLogout={handleLogout}
+      />
       {!isLoginVisible && (
         <GoalController />
       )}
