@@ -26,12 +26,13 @@ app.use(
 );
 
 // !!!!!!! Delete this, just to test sessions !!!!!!!!!!!!!!!!!!!!!
-app.use((req, res, next) => {
-  console.log(req.session);
-  next();
-});
+// app.use((req, res, next) => {
+//   console.log(req.session);
+//   next();
+// });
 
 export const loginRequired = (req, res, next) => {
+  console.log("server.loginRequired starting check...");
   const { user } = req.session;
   if (!user) {
     res.status(401);
@@ -49,12 +50,12 @@ const {
   deleteGoal,
 } = goalCtrl;
 // GOAL ENDPOINTS
-app.get("/api/goals", getAllGoals);
-app.get("/api/goal/:id", getGoal);
-app.get("/api/goalSelect", getSelectedGoals);
-app.post("/api/goal", addGoal);
-app.put("/api/goal/:id", updateGoalData);
-app.delete("/api/goal/:id", deleteGoal);
+app.get("/api/goals", loginRequired, getAllGoals);
+app.get("/api/goal/:id", loginRequired, getGoal);
+app.get("/api/goalSelect", loginRequired, getSelectedGoals);
+app.post("/api/goal", loginRequired, addGoal);
+app.put("/api/goal/:id", loginRequired, updateGoalData);
+app.delete("/api/goal/:id", loginRequired, deleteGoal);
 
 const { getUser, addUser, updateUserData, deleteUser, getOrCreateUser } =
   userCtrl;

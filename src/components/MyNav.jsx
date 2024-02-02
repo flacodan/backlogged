@@ -3,19 +3,41 @@ import { Navbar, Offcanvas, Container, Nav, Button } from 'react-bootstrap';
 import { BiMenu, BiBell } from 'react-icons/bi';
 import { MdLanguage } from "react-icons/md";
 
-const ExNavbar = () => {
+const ExNavbar = ({ onLogout }) => {
 
-  const handleLanguageClick = () => {
-    // do stuff here
-  };
-  
-  const [show, setShow] = useState(false);
+    const handleLanguageClick = () => {
+        // do stuff here
+    };
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-  
-  return (
-    <Navbar expand="fluid" className='sticky-top mx-3 justify-content-between'>
+    
+    const [show, setShow] = useState(false);
+    
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+    
+    
+
+    const onLogoutSelect = () => {    
+        // event.stopPropagation();
+        console.log("Clicked logout in menu");
+        onLogout();
+    }
+
+    const handleSelect = (eventKey) => {
+        console.log("Nav.handleSelect" + +eventKey===3);
+        if(+eventKey===3){
+            onLogoutSelect();
+        };
+        handleClose();
+        // alert(`selected ${eventKey}`)
+    };
+
+    return (
+    <Navbar 
+        expand="fluid" 
+        className='sticky-top mx-3 justify-content-between'
+        onSelect={handleSelect}
+    >
         <button 
             variant="outline-secondary" 
             className="navbar-toggler-icon" 
@@ -27,9 +49,9 @@ const ExNavbar = () => {
             </Offcanvas.Header>
             <Offcanvas.Body>
                 <Nav className="mx-auto">
-                    <Nav.Link href="#item1">User Info</Nav.Link>
-                    <Nav.Link href="#item2">Preferences</Nav.Link>
-                    <Nav.Link href="#item3">Log out</Nav.Link>
+                    <Nav.Link eventKey="1">User Info</Nav.Link>
+                    <Nav.Link eventKey="2">Preferences</Nav.Link>
+                    <Nav.Link eventKey="3">Log out</Nav.Link>
                 </Nav>
                 <Nav className="ml-auto">
                     <MdLanguage size={20} style={{color:"#6c757d"}} onClick={handleLanguageClick} />
@@ -42,7 +64,7 @@ const ExNavbar = () => {
         </span>
         <BiBell size={24} style={{color:"#6c757d"}} className="mx-2"/>
     </Navbar>
-  );
+    );
 };
 
 export default ExNavbar;

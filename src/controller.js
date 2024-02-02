@@ -5,12 +5,11 @@ import { Op } from "sequelize";
 export const goalCtrl = {
   getAllGoals: async (req, res) => {
     const { category, sort, complete } = req.query;
-    const { user } = req.session;
-    // console.log("api user " + user.username);
+    const { username, user_id } = req.session.user;
     const sortDirection =
       sort == "priority" || sort == "created_at" ? "DESC" : "ASC";
     const allGoals = await Goal.findAll({
-      where: { complete: complete }, //, userId: user.user_id
+      where: { complete: complete, user_id: user_id },
       order: [[sort, sortDirection]],
     });
     res.status(200).send(allGoals);
@@ -22,17 +21,17 @@ export const goalCtrl = {
   },
   getSelectedGoals: async (req, res) => {
     const { category, sort, complete } = req.query;
+    const { username, user_id } = req.session.user;
     const sortDirection =
       sort == "priority" || sort == "created_at" ? "DESC" : "ASC";
     const selectedGoals = await Goal.findAll({
-      where: { category: category, complete: complete }, // const { user } = req.session !!!!!!!!!!!!!!!!
+      where: { category: category, complete: complete, user_id: user_id },
       order: [[sort, sortDirection]],
     });
     res.status(200).send(selectedGoals);
   },
   addGoal: async (req, res) => {
-    // const { user_id } = req.session;
-    const uId = 1; // FIX THIS so the currently logged in user id is used!!!!!!!!!!!!!!!!!!!!!!!!!!
+    const { user_id } = req.session.user;
     const {
       title,
       description,
@@ -44,7 +43,7 @@ export const goalCtrl = {
       complete_date,
       priority,
     } = req.body;
-    const user = await User.findByPk(uId);
+    const user = await User.findByPk(user_id);
     const goal = await user.createGoal({
       title: title,
       description: description,
@@ -59,6 +58,7 @@ export const goalCtrl = {
     res.status(200).send(goal);
   },
   updateGoalData: async (req, res) => {
+    const { username, user_id } = req.session.user;
     const { id } = req.params;
     const {
       title,
@@ -83,11 +83,12 @@ export const goalCtrl = {
         complete_date: complete_date,
         priority: priority,
       },
-      { where: { goal_id: id } }
+      { where: { goal_id: id, user_id: user_id } }
     );
     res.sendStatus(200);
   },
   deleteGoal: async (req, res) => {
+    // add user_id check !!!!!!!!!!!!!!!!!!!!!!!!!
     const { id } = req.params;
     const goal = await Goal.findByPk(id);
     await goal.destroy();
@@ -169,7 +170,7 @@ export const authCtrl = {
   },
   getAuthData: async (req, res) => {
     const { username, password } = req.body;
-    console.log("Server side user: " + username + " pass: " + password);
+    console.log("Server side user: " + username);
     const user = await User.findOne({
       where: { username: username, password: password },
     });
@@ -177,8 +178,9 @@ export const authCtrl = {
     if (!user) {
       return res.status(403);
     }
-    req.session.user = { username: username, user_id: user.user_id }; // !!!!!!! Probably add uId to session as well
-    console.log("getAuthData " + req.session.user);
+    req.session.user = { username: username, user_id: user.user_id };
+    req.session.save();
+    console.log("controller.getAuthData " + JSON.stringify(req.session.user));
     res.status(200).send(user);
   },
   addAuthData: async (req, res) => {},
@@ -187,8 +189,14 @@ export const authCtrl = {
     if (!req.session.user) {
       res.status(401);
     } else {
-      req.session.destroy;
-      res.send(200);
+      req.session.destroy((err) => {
+        res.redirect("/");
+        req.session = null;
+      });
+
+      res.status(200);
     }
   },
 };
+
+// req.session.cookie.expires = new Date()

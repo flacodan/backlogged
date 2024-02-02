@@ -12,6 +12,7 @@ import { PiChartPieSliceFill, PiArrowFatUp } from "react-icons/pi";
 import { FaRegCalendarCheck } from "react-icons/fa";
 import ResultsList from './ResultsList';
 import GoalModal from "./GoalModal";
+import HintModal from "./HintStartModal";
 
 
 export default function GoalController() {
@@ -28,7 +29,7 @@ export default function GoalController() {
     //     return sortPrefs;
     // };
 
-    //getUserSortPrefs()
+    //getUserSortPrefs()  !!!!!!!!! to do !!!!!!!!!!!!!!!!!!
     
     const [goalQuery, setGoalQuery] = useState({ 
         category: 'home', 
@@ -41,7 +42,9 @@ export default function GoalController() {
     const [sortValue, setSortValue] = useState('1');
     const [goalData, setGoalData] = useState(null);
     const [isGoalModalVisible, setGoalModalVisible] = useState(false);
+    const [isHintModalVisible, setHintModalVisible] = useState(false);
 
+        // !!!!!!!! move fetchData out?? !!!!!!!!!!!!!!!!!!!!!!!!
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -100,6 +103,11 @@ export default function GoalController() {
         setGoalModalVisible(true);
     };
 
+    const handleHintClose = () => {
+        setHintModalVisible(false);
+    };
+
+
     const handleModalClose = () => {
         setGoalModalVisible(false);
     };
@@ -126,7 +134,7 @@ export default function GoalController() {
         const mergedData = {...newComplete, ...newDate, percent: 100 };
         try {
                 const response = await axios.put(`/api/goal/${clickedGoalId}`, mergedData);
-                fetchDataFromAPI(goalQuery);
+                fetchDataFromAPI(goalQuery); 
             } catch (error) {
                 console.error('Error updating data:', error);
             }
@@ -144,7 +152,7 @@ export default function GoalController() {
             const newData = {...updatedData, complete: false};
             const response = await axios.post(`/api/goal`, newData);
             setGoalModalVisible(false);
-            fetchDataFromAPI(goalQuery);
+            fetchDataFromAPI(goalQuery); 
         } catch (error) {
             console.error('Error updating data:', error);
         }
@@ -237,6 +245,12 @@ export default function GoalController() {
                 onClickComplete={handleCompleteClick}
             />
             </div>
+            {isHintModalVisible && (
+                <HintModal
+                    show={isHintModalVisible}
+                    onClose={handleHintClose}
+                />
+            )}
             {isGoalModalVisible && (
                 <GoalModal
                     goalData={goalData}

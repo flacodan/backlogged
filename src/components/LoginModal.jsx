@@ -12,7 +12,7 @@ export default function LoginModal({ show, onCreateUser, onLogin }) {
     const toggleLoginMode = () => {
         setLoginMode(loginMode === "login" ? "signup" : "login")
     }
-    
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({
@@ -33,13 +33,10 @@ export default function LoginModal({ show, onCreateUser, onLogin }) {
 
     const handleLoginClick = (event) => {
         event.preventDefault();
-        console.log("FormData " + formData);
-        console.log("In login ", JSON.stringify(formData, null, 2));
-        console.log("Username: " + formData.username);
         if(checkInput()) {
-            console.log("passed check input");
             onLogin(formData);
         };
+        console.log("LoginModal, back from login call");
     };
 
     const handleCreateUserClick = (event) => {
@@ -50,7 +47,6 @@ export default function LoginModal({ show, onCreateUser, onLogin }) {
         };
     };
     
-
     if (loginMode === "signup") {
         return (
             <>
@@ -76,24 +72,26 @@ export default function LoginModal({ show, onCreateUser, onLogin }) {
                                     Log In
                                 </span>
                             </div>
-                            <Form.Group className="mb-3 pt-3" controlId="loginForm.username">
+                            <Form.Group className="mb-3 pt-3" controlId="registerForm.username">
                                 <Form.Label>Email address</Form.Label>
                                 <Form.Control
                                     type="email"
                                     name='username'
                                     placeholder="name@example.com"
                                     onChange={handleInputChange}
+                                    value={formData.username}
                                     autoFocus
                                 />
                             </Form.Group>
                             <Form.Group
                                 className="mb-3"
-                                controlId="loginForm.password"
+                                controlId="registerForm.password"
                             >
                                 <Form.Label>Password</Form.Label>
                                 <Form.Control 
                                     type="password" 
                                     name='password'
+                                    value={formData.password}
                                     onChange={handleInputChange}
                                 />
                             </Form.Group>
@@ -133,24 +131,26 @@ export default function LoginModal({ show, onCreateUser, onLogin }) {
                                 Sign Up
                             </span>
                         </div>
-                        <Form.Group className="mb-3 pt-3" controlId="registerForm.username">
+                        <Form.Group className="mb-3 pt-3" controlId="loginForm.username">
                             <Form.Label>Email address</Form.Label>
                             <Form.Control
                                 type="email"
                                 name='username'
                                 placeholder="name@example.com"
+                                value={formData.username}
                                 onChange={handleInputChange}
                                 autoFocus
                             />
                         </Form.Group>
                         <Form.Group
                             className="mb-3"
-                            controlId="registerForm.password"
+                            controlId="loginForm.password"
                         >
                             <Form.Label>Password</Form.Label>
                             <Form.Control 
                                 type="password" 
                                 name='password'
+                                value={formData.password}
                                 onChange={handleInputChange}
                             />
                         </Form.Group>
