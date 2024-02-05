@@ -3,7 +3,7 @@ import { Navbar, Offcanvas, Container, Nav, Button } from 'react-bootstrap';
 import { BiMenu, BiBell } from 'react-icons/bi';
 import { MdLanguage } from "react-icons/md";
 
-const ExNavbar = ({ onLogout }) => {
+const MainNavbar = ({ onLogout }) => {
 
     const handleLanguageClick = () => {
         // do stuff here
@@ -27,9 +27,14 @@ const ExNavbar = ({ onLogout }) => {
         console.log("Nav.handleSelect" + +eventKey===3);
         if(+eventKey===3){
             onLogoutSelect();
-        };
+        } else if (+eventKey===2){
+            // Open Preferences dialog
+            console.log("Nav.handleSelect" + eventKey);
+        } else if(+eventKey===1){
+            // show user info dialog
+            console.log("Nav.handleSelect" + eventKey);
+        }
         handleClose();
-        // alert(`selected ${eventKey}`)
     };
 
     return (
@@ -58,7 +63,7 @@ const ExNavbar = ({ onLogout }) => {
                 </Nav>
             </Offcanvas.Body>
         </Offcanvas>       
-        <Navbar.Brand href="#" className='mb-0 h1 fs-2' style={{color:"#6c757d", fontSize:'52'}}>\\\\\ Backlogged \\\\\</Navbar.Brand>
+        <Navbar.Brand className='mb-0 h1 fs-2' style={{color:"#6c757d", fontSize:'52'}}>\\\\\ Backlogged \\\\\</Navbar.Brand>
         <span className="position-absolute top-30 start-100 translate-middle p-1 bg-danger border border-light rounded-circle">
             <span className="visually-hidden">New alerts</span>
         </span>
@@ -67,4 +72,4 @@ const ExNavbar = ({ onLogout }) => {
     );
 };
 
-export default ExNavbar;
+export default MainNavbar;

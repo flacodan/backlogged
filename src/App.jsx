@@ -3,13 +3,19 @@ import axios from "axios";
 import './App.css';
 import LoginModal from './components/LoginModal.jsx';
 import GoalController from './components/GoalController.jsx';
-import MainNav from './components/MainNav.jsx';
-import AppNavbar from './components/AppNavbar.jsx';
-import ExNavbar from './components/MyNav.jsx';
+import MainNavbar from './components/MainNavbar.jsx';
+import HintModal from './components/HintStartModal.jsx';
 
 function App() {
   
-const [isLoginVisible, setLoginVisible] = useState(false);
+  const [isLoginVisible, setLoginVisible] = useState(false);
+  const [isHintModalVisible, setHintModalVisible] = useState(false);
+
+
+  const handleHintClose = () => {
+    setHintModalVisible(false);
+  };
+
 
   useEffect(() => {
     const checkForUserSession = async () => {
@@ -26,16 +32,39 @@ const [isLoginVisible, setLoginVisible] = useState(false);
 
   const handleCreateUser = async (formData) => {
     // formData = { username: 'bob1@example.com', password: 'password' };
+    // create user response format: [{"user_id":22,"password":"asdgasdgasf","username":"ewsy45esg@sgd.net"},true]
     try {
-      const response = await axios.post(`/api/createUser`, formData);
-      console.log("Tried to create " + formData + " response: " + response.data); //if returns true, user did not exist, created it!!!!!!!!!!!!!!
-      // if session user is created, hide login and load page with users items
-      //if false, notify user that the user already exists, change to login screen!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-      setLoginVisible(false);
+      const response = await axios.post(`/api/createUser`, formData); //if returns true, user did not exist, created it!!!!!!!!!!!!!!
+      console.log("Tried to create " + JSON.stringify(formData));
+      const [user, created] = response.data;
+      console.log("User is now: " + JSON.stringify(user));
+      console.log("created is: " + JSON.stringify(created));
+      console.log("CreateUser " + JSON.stringify(response.data));
+      if(created){ 
+        setLoginVisible(false);
+        setHintModalVisible(true);
+      } else {
+        // if false, notify user that the user already exists, change to login screen!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        console.log("User already exists, switch to Log In or choose a different email address.");
+      }
     } catch (error) {
         console.error('Error creating user:', error);
     };
   };
+  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! after creating new user, add goal did not seem to work... or maybe needed to wait 12 sec? !!!!!!!!!!!!!!!!!
+
+  
+  // const showHint = async () => {
+  //     try {
+  //         const numGoals = await axios.get(`/api/countUserGoals`);
+  //         if(count === 0) { 
+  //             console.log("User has records: " + count);
+  //             setHintModalVisible(true);
+  //         }
+  //     } catch (error) {
+  //       console.error('Error counting users items:', error);
+  //     }
+  // };
 
   const handleLogin = async (formData) => {
     try {
@@ -48,27 +77,21 @@ const [isLoginVisible, setLoginVisible] = useState(false);
         console.log("App.handleLogin Success!" + JSON.stringify(response.data));
         // load page using prefs!!!!!!!!!!!!!!!!!!!!!
         setLoginVisible(false);
-        console.log("App.handleLogin, just closed login modal");
       }
     } catch (error) {
       console.error('Error updating data:', error);
     };
-    // there is a delay after this
-    console.log("App.handleLogin exiting...");
     window.location.reload(true);
   };
 
   const handleLogout = async () => {
     try {
-      console.log("App.handleLogout, about to call api");
       const response = await axios.post('/api/logout');
-      console.log("Api called, result: " + response);
       // if status 200, then send success alert and reload page (hiding results and showing modal)
       // console.log("Yikes! How did you do this? Stop it.");
     } catch (error) {
       console.error('Error logging out:', error);
     }
-    console.log("App.handleLogout exiting...");
     window.location.reload(true);
   }
 
@@ -81,11 +104,17 @@ const [isLoginVisible, setLoginVisible] = useState(false);
               onLogin={handleLogin}
           />
       )}
-      <ExNavbar 
+      <MainNavbar 
         onLogout={handleLogout}
       />
       {!isLoginVisible && (
         <GoalController />
+      )}
+      {isHintModalVisible && (
+          <HintModal
+              show={isHintModalVisible}
+              onClose={handleHintClose}
+          />
       )}
     </>
   );

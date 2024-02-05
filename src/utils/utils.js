@@ -16,3 +16,5 @@ export const fetchDataFromAPI = async (query) => {
     console.error("Error fetching data:", error);
   }
 };
+
+// add date functions

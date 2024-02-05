@@ -54,16 +54,15 @@ export default function LoginModal({ show, onCreateUser, onLogin }) {
                     show={show}
                     backdrop="static"
                     keyboard={false}
-                    aria-labelledby="contained-modal-title-vcenter"
+                    aria-labelledby="login-modal-signup"
                     centered
                 >
                     <Modal.Header >
-                        <Modal.Title>Sign Up</Modal.Title>
+                        <Modal.Title style={{color:"#6c757d"}} ><Image className='me-2' src="/android-chrome-512x512.png" width={50} height={50}/>Sign Up</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <div className='d-flex flex-row pt-2'>
-                            <Image src="/public/android-chrome-512x512.png" width={50} height={50}/>
-                            <span className="h4 fw-bold mb-0 ps-4 pt-2" style={{color:"#6c757d"}} >Welcome to Backlogged!</span>
+                        <div className='text-center pt-3'>
+                            <span className="h4 text-center fw-bold" style={{color:"#6c757d"}} >Welcome to Backlogged!</span>
                         </div>
                         <Form>
                             <div className="text-center pt-3">
@@ -113,16 +112,15 @@ export default function LoginModal({ show, onCreateUser, onLogin }) {
                 show={show}
                 backdrop="static"
                 keyboard={false}
-                aria-labelledby="contained-modal-title-vcenter"
+                aria-labelledby="login-modal-login"
                 centered
             >
                 <Modal.Header >
-                    <Modal.Title>Log In</Modal.Title>
+                    <Modal.Title style={{color:"#6c757d"}} ><Image className='me-2' src="/android-chrome-512x512.png" width={50} height={50}/>Log In</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <div className='d-flex flex-row pt-2'>
-                        <Image src="/public/android-chrome-512x512.png" width={50} height={50}/>
-                        <span className="h4 fw-bold mb-0 ps-4 pt-2" style={{color:"#6c757d"}} >Welcome to Backlogged!</span>
+                    <div className='text-center pt-3'>
+                        <span className="h4 text-center fw-bold" style={{color:"#6c757d"}} >Welcome to Backlogged!</span>
                     </div>
                     <Form>
                         <div className="text-center pt-3">

@@ -94,6 +94,13 @@ export const goalCtrl = {
     await goal.destroy();
     res.sendStatus(200);
   },
+  countUserGoals: async (req, res) => {
+    const { user_id } = req.session.user;
+    const count = await Goal.count({
+      where: { user_id: user_id },
+    });
+    res.status(200).send(count);
+  },
 };
 
 // USER ENDPOINTS
@@ -131,11 +138,17 @@ export const userCtrl = {
   },
   getOrCreateUser: async (req, res) => {
     const { username, password } = req.body;
-    const user = await User.findOrCreate({
+    const response = await User.findOrCreate({
       where: { username: username },
       defaults: { password: password },
     });
-    res.status(200).send(user);
+    const [user, created] = response;
+    if (!created) {
+      return res.status(403);
+    }
+    req.session.user = { username: user.username, user_id: user.user_id };
+    req.session.save();
+    res.status(200).send(response);
   },
 };
 

@@ -12,7 +12,6 @@ import { PiChartPieSliceFill, PiArrowFatUp } from "react-icons/pi";
 import { FaRegCalendarCheck } from "react-icons/fa";
 import ResultsList from './ResultsList';
 import GoalModal from "./GoalModal";
-import HintModal from "./HintStartModal";
 
 
 export default function GoalController() {
@@ -42,19 +41,20 @@ export default function GoalController() {
     const [sortValue, setSortValue] = useState('1');
     const [goalData, setGoalData] = useState(null);
     const [isGoalModalVisible, setGoalModalVisible] = useState(false);
-    const [isHintModalVisible, setHintModalVisible] = useState(false);
 
         // !!!!!!!! move fetchData out?? !!!!!!!!!!!!!!!!!!!!!!!!
     useEffect(() => {
+        let response=[];
         const fetchData = async () => {
             try {
-                const response = await axios.get('/api/goals', { params: goalQuery });
+                response = await axios.get('/api/goals', { params: goalQuery });
                 setResultData(response.data);
             } catch (err) {
                 console.error('Error loading data: ', err);
             }
         };
         fetchData();
+        // showHint();
     }, []);
 
     const categories = [
@@ -103,12 +103,7 @@ export default function GoalController() {
         setGoalModalVisible(true);
     };
 
-    const handleHintClose = () => {
-        setHintModalVisible(false);
-    };
-
-
-    const handleModalClose = () => {
+    const handleGoalModalClose = () => {
         setGoalModalVisible(false);
     };
 
@@ -171,6 +166,7 @@ export default function GoalController() {
             }
         } else {handleAddGoal(updatedData);}
     };
+
 
     return(
         <>
@@ -245,18 +241,12 @@ export default function GoalController() {
                 onClickComplete={handleCompleteClick}
             />
             </div>
-            {isHintModalVisible && (
-                <HintModal
-                    show={isHintModalVisible}
-                    onClose={handleHintClose}
-                />
-            )}
             {isGoalModalVisible && (
                 <GoalModal
                     goalData={goalData}
                     show={isGoalModalVisible}
                     onDelete={handleDeleteGoal}
-                    onClose={handleModalClose}
+                    onClose={handleGoalModalClose}
                     onSaveChanges={handleSaveChanges}
                 />
             )}

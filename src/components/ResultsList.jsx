@@ -7,7 +7,6 @@ import { GrGamepad } from "react-icons/gr";
 import { ImCheckmark2, ImCheckmark, ImCheckboxChecked } from "react-icons/im";
 
 export default function ResultsList ({ resultData, onCardClick, onClickComplete }) {
-
   //add this to css for hover effect: .card:hover {  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
 
   const categories = [

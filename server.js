@@ -17,7 +17,7 @@ app.use(
     secret: process.env.SESSION_SECRET,
     saveUninitialized: true,
     resave: false,
-    rolling: true,
+    // rolling: true,
     cookie: {
       httpOnly: true,
       maxAge: +process.env.SESSION_MAX_AGE,
@@ -48,6 +48,7 @@ const {
   addGoal,
   updateGoalData,
   deleteGoal,
+  countUserGoals,
 } = goalCtrl;
 // GOAL ENDPOINTS
 app.get("/api/goals", loginRequired, getAllGoals);
@@ -56,6 +57,7 @@ app.get("/api/goalSelect", loginRequired, getSelectedGoals);
 app.post("/api/goal", loginRequired, addGoal);
 app.put("/api/goal/:id", loginRequired, updateGoalData);
 app.delete("/api/goal/:id", loginRequired, deleteGoal);
+app.get("/api/countUserGoals", loginRequired, countUserGoals);
 
 const { getUser, addUser, updateUserData, deleteUser, getOrCreateUser } =
   userCtrl;

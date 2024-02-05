@@ -6,7 +6,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 
 
-export default function MainNav() {
+export default function old2Nav() {
   return (
     <>
         <Navbar expand="false" fixed="top" className="bg-body-tertiary mb-3" >
