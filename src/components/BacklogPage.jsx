@@ -14,7 +14,7 @@ import ResultsList from './ResultsList';
 import GoalModal from "./GoalModal";
 
 
-export default function GoalController() {
+export default function BacklogPage() {
 
     
     // const getUserSortPrefs = async () => {
@@ -77,19 +77,15 @@ export default function GoalController() {
     ];
 
     const handleQueryChange = async (queryChange) => {
-        console.log("goalQuery BEFORE: " + JSON.stringify(goalQuery));
-        console.log("queryChange: " + JSON.stringify(queryChange));
         setGoalQuery((prevQuery) => {
             const updatedQuery = { ...prevQuery, ...queryChange };
             fetchDataFromAPI(updatedQuery);
-            console.log("goalQuery AFTER merge: " + JSON.stringify(updatedQuery));
             return updatedQuery;
         })
     };
 
     const fetchDataFromAPI = async (query) => {
         let endPoint = (query.category === 'home') ? '/api/goals' : '/api/goalSelect';
-        console.log("Endpoint is: " + endPoint);
         try {
             const response = await axios.get(endPoint, { params: query });
             setResultData(response.data);
@@ -99,10 +95,8 @@ export default function GoalController() {
     };      
 
     const handleCardClick = (clickedGoalId) => {
-        console.log("registered card click...");
         const clickedGoalData = resultData.find((goal) => goal.goal_id === clickedGoalId);
         setGoalData(clickedGoalData);
-        console.log("Clicked Goal Data:", JSON.stringify(clickedGoalData, null, 2));
         setGoalModalVisible(true);
     };
 

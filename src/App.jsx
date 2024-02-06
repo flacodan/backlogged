@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from "axios";
 import './App.css';
 import LoginModal from './components/LoginModal.jsx';
-import GoalController from './components/GoalController.jsx';
+import BacklogPage from './components/BacklogPage.jsx';
 import MainNavbar from './components/MainNavbar.jsx';
 import HintModal from './components/HintStartModal.jsx';
 import UserInfoModal from './components/UserInfoModal.jsx';
@@ -35,8 +35,6 @@ function App() {
   }, []);
 
   const handleCreateUser = async (formData) => {
-    // formData = { username: 'bob1@example.com', password: 'password' };
-    // create user response format: [{"user_id":22,"password":"asdgasdgasf","username":"ewsy45esg@sgd.net"},true]
     try {
       const response = await axios.post(`/api/createUser`, formData); //if returns true, user did not exist, created it!!!!!!!!!!!!!!
       const [userdata, created] = response.data;
@@ -55,7 +53,6 @@ function App() {
         console.error('Error creating user:', error);
     };
   };
-  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! after creating new user, add goal did not appear for 15sec, delete had same lag !!!!!!!!!!!!!!!!!
 
 
   const handleLogin = async (formData) => {
@@ -85,8 +82,6 @@ function App() {
   const handleLogout = async () => {
     try {
       const response = await axios.post('/api/logout');
-      // if status 200, then send success alert and reload page (hiding results and showing modal)
-      // console.log("Yikes! How did you do this? Stop it.");
     } catch (error) {
       console.error('Error logging out:', error);
     }
@@ -107,7 +102,7 @@ function App() {
         onUserInfo={handleUserOpen}
       />
       {!isLoginVisible && (
-        <GoalController />
+        <BacklogPage />
       )}
       {isHintModalVisible && (
           <HintModal

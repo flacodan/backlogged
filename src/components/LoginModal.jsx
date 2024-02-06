@@ -8,9 +8,13 @@ export default function LoginModal({ show, onCreateUser, onLogin }) {
 
     const [loginMode, setLoginMode] = useState("login");
     const [formData, setFormData] = useState({ username: "", password: "" });
+    const [validated, setValidated] = useState(false);
+
+    const MIN_PASSWORD_LENGTH = 4;
 
     const toggleLoginMode = () => {
-        setLoginMode(loginMode === "login" ? "signup" : "login")
+        setLoginMode(loginMode === "login" ? "signup" : "login");
+        setValidated(false);
     }
 
     const handleInputChange = (e) => {
@@ -21,31 +25,31 @@ export default function LoginModal({ show, onCreateUser, onLogin }) {
         }));
     };
 
-    // !!!! Add more useful validation to verify username is a valid email and password a minimum length !!!!!
     const checkInput = () => {
-        if(!formData.password || !formData.username){
-            console.log("Username and password are required.");
-            return false;
-        } else {
-            return true;
-        }
-    }
+        const { username, password } = formData;
+        const isUsernameValid = username.trim() !== '';
+        const isPasswordValid = password.trim().length >= MIN_PASSWORD_LENGTH; 
+        return isUsernameValid && isPasswordValid;
+    };
 
     const handleLoginClick = (event) => {
         event.preventDefault();
-        if(formData.username && formData.password){}
-        if(checkInput()) {
+        const isValid = checkInput();
+        if (isValid) {
             onLogin(formData);
-        };
-        console.log("LoginModal, back from login call");
+        } else {
+            setValidated(!isValid); 
+        }
     };
 
     const handleCreateUserClick = (event) => {
         event.preventDefault();
-        console.log("In create user ", JSON.stringify(formData, null, 2));
-        if(checkInput()) {
+        const isValid = checkInput();
+        if (isValid) {
             onCreateUser(formData);
-        };
+        } else {
+            setValidated(!isValid); 
+        }
     };
     
     if (loginMode === "signup") {
@@ -65,7 +69,7 @@ export default function LoginModal({ show, onCreateUser, onLogin }) {
                         <div className='text-center pt-3'>
                             <span className="h4 text-center fw-bold" style={{color:"#6c757d"}} >Welcome to Backlogged!</span>
                         </div>
-                        <Form>
+                        <Form noValidate validated={validated} >
                             <div className="text-center pt-3">
                                 Already registered?{" "}
                                 <span className="link-primary" role="button" onClick={toggleLoginMode}>
@@ -123,7 +127,7 @@ export default function LoginModal({ show, onCreateUser, onLogin }) {
                     <div className='text-center pt-3'>
                         <span className="h4 text-center fw-bold" style={{color:"#6c757d"}} >Welcome to Backlogged!</span>
                     </div>
-                    <Form>
+                    <Form noValidate validated={validated} >
                         <div className="text-center pt-3">
                             Not registered yet?{" "}
                             <span className="link-primary" role="button" onClick={toggleLoginMode}>
