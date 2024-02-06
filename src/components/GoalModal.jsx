@@ -11,6 +11,7 @@ export default function GoalModal({ goalData, show, onDelete, onClose, onSaveCha
 
     const [formData, setFormData] = useState({});
     const [checked, setChecked] = useState(goalData.complete ?? false);
+    const [validated, setValidated] = useState(false);
 
     useEffect(() => {
         // Set formData when goalData changes
@@ -40,11 +41,24 @@ export default function GoalModal({ goalData, show, onDelete, onClose, onSaveCha
         }));
     }
     
-    // !!!!!!!!!!!!!!!!!!!!!!!! Must revert data if CLOSE is clicked !!!!!!!!!!!!!!!!!!!!!!!!!!
-    // !!!!!!!!!!!!!!!!!!!!!!!!!! ADD LOGIC TO HANDLE REQUIRED FIELDS !!!!!!!!!!!!!!!!!!!!!!!!!
+    // Rrevert data if CLOSE is clicked
+    const handleClose = () => {
+        setFormData(goalData);
+        onClose();
+    }
 
-    const handleSave = () => {
-        onSaveChanges(formData);
+    const handleSave = (event) => {
+        const form = event.currentTarget;
+        if(form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+            setValidated(true);
+        } else {
+            setValidated(true);
+            if(formData.title && formData.description && formData.category) {
+                onSaveChanges(formData);
+            }
+        }
     };
     
     // Format the date as "yyyy-MM-dd"
@@ -58,13 +72,14 @@ export default function GoalModal({ goalData, show, onDelete, onClose, onSaveCha
             {goalData && (
                 <Modal show={show}>
                 <Modal.Body>
-                    <Form>
+                    <Form noValidate validated={validated} >
                         <Form.Group className="mb-3" controlId="goalForm.ControlTitle">
                             <div className='d-flex justify-content-between'>
                             
                             </div>
                             <FloatingLabel controlId='floatingTitle' label='Title'>
                                 <Form.Control
+                                    required
                                     type='text'
                                     placeholder="Enter a short title"
                                     autoFocus
@@ -75,6 +90,9 @@ export default function GoalModal({ goalData, show, onDelete, onClose, onSaveCha
                                     onChange={handleInputChange}
                                     disabled={checked}
                                 />
+                                <Form.Control.Feedback type="invalid">
+                                    Please provide a Title.
+                                </Form.Control.Feedback>
                             </FloatingLabel>
                         </Form.Group>
                         <Form.Group
@@ -83,6 +101,7 @@ export default function GoalModal({ goalData, show, onDelete, onClose, onSaveCha
                         >
                             <FloatingLabel controlId='floatingDescription' label='Description'>
                                 <Form.Control 
+                                    required
                                     as="textarea" 
                                     style={{ height: '100px' }}
                                     name='description'
@@ -90,6 +109,9 @@ export default function GoalModal({ goalData, show, onDelete, onClose, onSaveCha
                                     onChange={handleInputChange}
                                     disabled={checked}
                                 />
+                                <Form.Control.Feedback type="invalid">
+                                    Please provide a Description.
+                                </Form.Control.Feedback>
                             </FloatingLabel>
                         </Form.Group>
                         <Form.Group
@@ -98,6 +120,7 @@ export default function GoalModal({ goalData, show, onDelete, onClose, onSaveCha
                         >
                             <FloatingLabel controlId='floatingCategorySelect' label='Category'>
                                 <Form.Select 
+                                    required
                                     aria-label='category'
                                     value={formData.category}
                                     onChange={(e) => setFormData({ ...formData, category: e.target.value })}
@@ -109,6 +132,10 @@ export default function GoalModal({ goalData, show, onDelete, onClose, onSaveCha
                                     <option value="game">Game</option>
                                     <option value="movie">Movie</option>
                                 </Form.Select>
+                                
+                                <Form.Control.Feedback type="invalid">
+                                    Please select a Category.
+                                </Form.Control.Feedback>
                             </FloatingLabel>
                         </Form.Group>
                         <Form.Group
@@ -213,10 +240,10 @@ export default function GoalModal({ goalData, show, onDelete, onClose, onSaveCha
                                 >{<ImCheckmark2 />} Complete
                                 </ToggleButton>
                             )}
-                    <Button variant="outline-secondary" onClick={onClose}>
+                    <Button variant="outline-secondary" onClick={() => handleClose()}>
                         Close
                     </Button>
-                    <Button variant="outline-primary" onClick={handleSave}>
+                    <Button type="submit" variant="outline-primary" onClick={handleSave}>
                         Save
                     </Button>
                 </Modal.Footer>

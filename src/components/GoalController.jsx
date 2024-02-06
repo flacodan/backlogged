@@ -53,12 +53,12 @@ export default function GoalController() {
                     console.error('Unexpected status code:', response.status);
                 }
             } catch (err) {
-                console.error('Error loading data: ', err);
+                //console.error('Error loading data: ', err);
             }
         };
         fetchData();
     }, []);
-    
+
 
     const categories = [
         { name: 'home', value: '1', icon: <MdOutlineHome size={32}/> },

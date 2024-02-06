@@ -31,6 +31,7 @@ function App() {
       }
   };
   checkForUserSession();
+  console.log("App.useEffect Finished.");
   }, []);
 
   const handleCreateUser = async (formData) => {
