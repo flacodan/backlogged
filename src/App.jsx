@@ -5,16 +5,19 @@ import LoginModal from './components/LoginModal.jsx';
 import GoalController from './components/GoalController.jsx';
 import MainNavbar from './components/MainNavbar.jsx';
 import HintModal from './components/HintStartModal.jsx';
+import UserInfoModal from './components/UserInfoModal.jsx';
 
 function App() {
   
   const [isLoginVisible, setLoginVisible] = useState(false);
   const [isHintModalVisible, setHintModalVisible] = useState(false);
+  const [isUserModalVisible, setUserModalVisible] = useState(false);
+  const [user, setUser] = useState("test");
 
 
-  const handleHintClose = () => {
-    setHintModalVisible(false);
-  };
+  const handleHintClose = () => { setHintModalVisible(false); };
+  const handleUserClose = () => { setUserModalVisible(false); };
+  const handleUserOpen = () => { setUserModalVisible(true); };
 
 
   useEffect(() => {
@@ -35,41 +38,29 @@ function App() {
     // create user response format: [{"user_id":22,"password":"asdgasdgasf","username":"ewsy45esg@sgd.net"},true]
     try {
       const response = await axios.post(`/api/createUser`, formData); //if returns true, user did not exist, created it!!!!!!!!!!!!!!
-      console.log("Tried to create " + JSON.stringify(formData));
-      const [user, created] = response.data;
-      console.log("User is now: " + JSON.stringify(user));
-      console.log("created is: " + JSON.stringify(created));
-      console.log("CreateUser " + JSON.stringify(response.data));
+      const [userdata, created] = response.data;
+      const username = userdata.username;
       if(created){ 
         setLoginVisible(false);
         setHintModalVisible(true);
+        setUser(username);
       } else {
         // if false, notify user that the user already exists, change to login screen!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        alert("User already exists! Choose 'Log In' instead or choose a different email address.");
         console.log("User already exists, switch to Log In or choose a different email address.");
       }
     } catch (error) {
+        console.log("create didn't work");
         console.error('Error creating user:', error);
     };
   };
-  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! after creating new user, add goal did not seem to work... or maybe needed to wait 12 sec? !!!!!!!!!!!!!!!!!
+  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! after creating new user, add goal did not appear for 15sec, delete had same lag !!!!!!!!!!!!!!!!!
 
-  
-  // const showHint = async () => {
-  //     try {
-  //         const numGoals = await axios.get(`/api/countUserGoals`);
-  //         if(count === 0) { 
-  //             console.log("User has records: " + count);
-  //             setHintModalVisible(true);
-  //         }
-  //     } catch (error) {
-  //       console.error('Error counting users items:', error);
-  //     }
-  // };
 
   const handleLogin = async (formData) => {
     try {
       const response = await axios.post(`/api/auth`, formData);
-      if(response.length === 0){
+      if(response.status != 200){
         console.log("App.handleLogin bad response" + JSON.stringify(response.data));
         // or window.alert("Wrong email or password")
         // if incorrect, warn user to try again: window.confirm("An account does not exist with this email address: " + email);
@@ -77,11 +68,17 @@ function App() {
         console.log("App.handleLogin Success!" + JSON.stringify(response.data));
         // load page using prefs!!!!!!!!!!!!!!!!!!!!!
         setLoginVisible(false);
+        const {user_id, username} = response.data;
+        setUser(prevUser => username);
+        console.log("Logged in as " + username);
       }
     } catch (error) {
+      console.log("Error logging in");
       console.error('Error updating data:', error);
     };
     window.location.reload(true);
+    
+    console.log("Logged in as (end) " + user);
   };
 
   const handleLogout = async () => {
@@ -106,6 +103,7 @@ function App() {
       )}
       <MainNavbar 
         onLogout={handleLogout}
+        onUserInfo={handleUserOpen}
       />
       {!isLoginVisible && (
         <GoalController />
@@ -113,7 +111,14 @@ function App() {
       {isHintModalVisible && (
           <HintModal
               show={isHintModalVisible}
-              onClose={handleHintClose}
+              onHintClose={handleHintClose}
+          />
+      )}
+      {isUserModalVisible && (
+          <UserInfoModal
+              show={isUserModalVisible}
+              onHintClose={handleUserClose}
+              userInfo={user}
           />
       )}
     </>

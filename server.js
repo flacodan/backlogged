@@ -35,7 +35,7 @@ export const loginRequired = (req, res, next) => {
   console.log("server.loginRequired starting check...");
   const { user } = req.session;
   if (!user) {
-    res.status(401);
+    res.status(401).send("Unauthorized.");
   } else {
     next();
   }

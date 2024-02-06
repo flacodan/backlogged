@@ -3,7 +3,7 @@ import { Navbar, Offcanvas, Container, Nav, Button } from 'react-bootstrap';
 import { BiMenu, BiBell } from 'react-icons/bi';
 import { MdLanguage } from "react-icons/md";
 
-const MainNavbar = ({ onLogout }) => {
+const MainNavbar = ({ onLogout, onUserInfo }) => {
 
     const handleLanguageClick = () => {
         // do stuff here
@@ -15,24 +15,15 @@ const MainNavbar = ({ onLogout }) => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     
-    
-
-    const onLogoutSelect = () => {    
-        // event.stopPropagation();
-        console.log("Clicked logout in menu");
-        onLogout();
-    }
 
     const handleSelect = (eventKey) => {
-        console.log("Nav.handleSelect" + +eventKey===3);
         if(+eventKey===3){
-            onLogoutSelect();
+            onLogout();
         } else if (+eventKey===2){
             // Open Preferences dialog
-            console.log("Nav.handleSelect" + eventKey);
         } else if(+eventKey===1){
             // show user info dialog
-            console.log("Nav.handleSelect" + eventKey);
+            onUserInfo();
         }
         handleClose();
     };
@@ -50,7 +41,7 @@ const MainNavbar = ({ onLogout }) => {
         </button>
         <Offcanvas show={show} onHide={handleClose}>
             <Offcanvas.Header closeButton>
-                <Offcanvas.Title>\\\\ Backlogged Menu</Offcanvas.Title>
+                <Offcanvas.Title style={{color:"#6c757d"}}>\\\\ Backlogged Menu</Offcanvas.Title>
             </Offcanvas.Header>
             <Offcanvas.Body>
                 <Nav className="mx-auto">

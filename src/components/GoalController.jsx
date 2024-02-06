@@ -42,20 +42,23 @@ export default function GoalController() {
     const [goalData, setGoalData] = useState(null);
     const [isGoalModalVisible, setGoalModalVisible] = useState(false);
 
-        // !!!!!!!! move fetchData out?? !!!!!!!!!!!!!!!!!!!!!!!!
+    // !!!!!!!! move fetchData out?? !!!!!!!!!!!!!!!!!!!!!!!!
     useEffect(() => {
-        let response=[];
         const fetchData = async () => {
             try {
-                response = await axios.get('/api/goals', { params: goalQuery });
-                setResultData(response.data);
+                const response = await axios.get('/api/goals', { params: goalQuery });
+                if (response.status === 200) {
+                    setResultData(response.data);
+                } else {
+                    console.error('Unexpected status code:', response.status);
+                }
             } catch (err) {
                 console.error('Error loading data: ', err);
             }
         };
         fetchData();
-        // showHint();
     }, []);
+    
 
     const categories = [
         { name: 'home', value: '1', icon: <MdOutlineHome size={32}/> },

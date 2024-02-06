@@ -33,6 +33,7 @@ export default function LoginModal({ show, onCreateUser, onLogin }) {
 
     const handleLoginClick = (event) => {
         event.preventDefault();
+        if(formData.username && formData.password){}
         if(checkInput()) {
             onLogin(formData);
         };
@@ -67,7 +68,7 @@ export default function LoginModal({ show, onCreateUser, onLogin }) {
                         <Form>
                             <div className="text-center pt-3">
                                 Already registered?{" "}
-                                <span className="link-primary" onClick={toggleLoginMode}>
+                                <span className="link-primary" role="button" onClick={toggleLoginMode}>
                                     Log In
                                 </span>
                             </div>
@@ -125,7 +126,7 @@ export default function LoginModal({ show, onCreateUser, onLogin }) {
                     <Form>
                         <div className="text-center pt-3">
                             Not registered yet?{" "}
-                            <span className="link-primary" onClick={toggleLoginMode}>
+                            <span className="link-primary" role="button" onClick={toggleLoginMode}>
                                 Sign Up
                             </span>
                         </div>

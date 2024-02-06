@@ -8,11 +8,16 @@ export const goalCtrl = {
     const { username, user_id } = req.session.user;
     const sortDirection =
       sort == "priority" || sort == "created_at" ? "DESC" : "ASC";
-    const allGoals = await Goal.findAll({
-      where: { complete: complete, user_id: user_id },
-      order: [[sort, sortDirection]],
-    });
-    res.status(200).send(allGoals);
+    try {
+      const allGoals = await Goal.findAll({
+        where: { complete: complete, user_id: user_id },
+        order: [[sort, sortDirection]],
+      });
+      res.status(200).send(allGoals);
+    } catch (error) {
+      console.error("Error retrieving goals:", error);
+      res.status(500).send("Internal Server Error");
+    }
   },
   getGoal: async (req, res) => {
     const { id } = req.params;
@@ -142,13 +147,16 @@ export const userCtrl = {
       where: { username: username },
       defaults: { password: password },
     });
+    // console.log("Controller.getorcreateuser: " + JSON.stringify(response));
     const [user, created] = response;
-    if (!created) {
-      return res.status(403);
+    console.log("controller, created " + created);
+    if (created) {
+      req.session.user = { username: user.username, user_id: user.user_id };
+      req.session.save();
+      res.status(200).send(response);
+    } else {
+      res.status(403).send(response);
     }
-    req.session.user = { username: user.username, user_id: user.user_id };
-    req.session.save();
-    res.status(200).send(response);
   },
 };
 
@@ -178,7 +186,7 @@ export const prefCtrl = {
 export const authCtrl = {
   checkSessionUser: async (req, res) => {
     const { user } = req.session;
-    console.log("in checkSession endpoint " + req.session);
+    console.log("in checkSession endpoint " + JSON.stringify(req.session));
     res.send(user ? user : false);
   },
   getAuthData: async (req, res) => {

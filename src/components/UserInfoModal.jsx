@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { Row } from 'react-bootstrap';
 
-export default function HintModal({ show, onHintClose }) {
+export default function UserInfoModal({ show, onHintClose, userInfo }) {
 
     return (
         <>
@@ -15,7 +15,7 @@ export default function HintModal({ show, onHintClose }) {
                 centered
             >
                 <Modal.Header style={{color:"#6c757d"}}  closeButton>
-                    <Modal.Title>Get Started</Modal.Title>
+                    <Modal.Title>User Information</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div className='d-flex flex-row pt-3 '>
@@ -25,17 +25,14 @@ export default function HintModal({ show, onHintClose }) {
                     <div className='py-5 d-flex justify-content-center text-center'>
                         <Row>
                             <h5 style={{color:"#6c757d"}} >
-                                You haven't saved any Backlog items yet... 
-                            </h5>
-                            <h5 style={{color:"#6c757d"}} >
-                                Click the ADD button at the bottom of the screen to create your first Backlog item!
+                                Currently logged in as: {userInfo}
                             </h5>
                         </Row>
                     </div>
                 </Modal.Body>
                 <Modal.Footer className='d-flex justify-content-end'>
                     <Button variant="secondary" onClick={onHintClose}>
-                        Got It!
+                        Close
                     </Button>
                 </Modal.Footer>
             </Modal>
