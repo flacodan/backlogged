@@ -1,5 +1,5 @@
 import { User, Goal, Preferences } from "../models/model.js";
-import { Op } from "sequelize";
+import { Sequelize, Op } from "sequelize";
 
 // GOAL ENDPOINTS
 export const goalCtrl = {
@@ -105,6 +105,18 @@ export const goalCtrl = {
       where: { user_id: user_id },
     });
     res.status(200).send(count);
+  },
+  checkUpcomingGoals: async (req, res) => {
+    const { username, user_id } = req.session.user;
+    const upcomingExist = await Goal.findAndCountAll({
+      where: {
+        user_id: user_id,
+        due_date: {
+          [Op.lte]: Sequelize.literal("NOW() + INTERVAL '7 days'"),
+        },
+      },
+    });
+    res.status(200).send(upcomingExist);
   },
 };
 

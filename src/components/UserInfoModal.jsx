@@ -20,7 +20,7 @@ export default function UserInfoModal({ show, onHintClose, userInfo }) {
                 <Modal.Body>
                     <div className='d-flex flex-row pt-3 '>
                         <Image src="/android-chrome-512x512.png" width={50} height={50}/>
-                        <span className="h4 fw-bold mb-0 ps-4 pt-2" style={{color:"#6c757d"}} >\\\\\\ Backlogged</span>
+                        <span className="h4 fw-bold mb-0 ps-4 pt-2" style={{color:"#6c757d"}} >\\\ Backlogged</span>
                     </div>
                     <div className='py-5 d-flex justify-content-center text-center'>
                         <Row>

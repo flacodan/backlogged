@@ -33,7 +33,7 @@ export default function BacklogPage() {
     const [goalQuery, setGoalQuery] = useState({ 
         category: 'home', 
         sort: 'priority', 
-        complete: false 
+        complete: false
     });
 
     const [resultData, setResultData] = useState([]);
@@ -41,8 +41,9 @@ export default function BacklogPage() {
     const [sortValue, setSortValue] = useState('1');
     const [goalData, setGoalData] = useState(null);
     const [isGoalModalVisible, setGoalModalVisible] = useState(false);
+    const [showAlertBadge, setShowAlertBadge] = useState(false);
 
-    // !!!!!!!! move fetchData out?? !!!!!!!!!!!!!!!!!!!!!!!!
+    
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -59,13 +60,28 @@ export default function BacklogPage() {
         fetchData();
     }, []);
 
+    useEffect(() => {
+        const checkUpcomingGoals = async () => {
+          try {
+              const response = await axios.get('/api/upcomingGoalsExist');
+              const { count } = response.data;
+              console.log("Count gt 0? " + count + " " + (+count > 0));
+              setShowAlertBadge(count > 0);
+              console.log("showalert " + showAlertBadge);
+          } catch (error) {
+              console.error('Error checking upcoming goals:', error);
+          }
+        };
+        checkUpcomingGoals();
+    }, []);
+
 
     const categories = [
-        { name: 'home', value: '1', icon: <MdOutlineHome size={32}/> },
-        { name: 'book', value: '2', icon: <MdMenuBook size={32}/> },
-        { name: 'project', value: '3', icon: <MdDesignServices size={32}/> },
-        { name: 'game', value: '4', icon: <GrGamepad size={32}/> },
-        { name: 'movie', value: '5', icon: <BiCameraMovie size={32}/> },
+        { name: 'home', value: '1', icon: <MdOutlineHome size={30}/> },
+        { name: 'book', value: '2', icon: <MdMenuBook size={30}/> },
+        { name: 'project', value: '3', icon: <MdDesignServices size={30}/> },
+        { name: 'game', value: '4', icon: <GrGamepad size={30}/> },
+        { name: 'movie', value: '5', icon: <BiCameraMovie size={30}/> },
     ];
 
     const sortType = [
@@ -93,6 +109,19 @@ export default function BacklogPage() {
             console.error('Error fetching data:', error);
         }
     };      
+
+    const getUpcomingItems = async () => {
+        console.log("getUpcomingItems showbadge: " + showAlertBadge);
+        if (showAlertBadge) {
+            try {
+                const response = await axios.get('/api/upcomingGoalsExist');
+                const { count, rows } = response.data;
+                setResultData(rows);
+            } catch (error) {
+                console.error('Error getting upcoming goals:', error);
+            }
+        }
+    };
 
     const handleCardClick = (clickedGoalId) => {
         const clickedGoalData = resultData.find((goal) => goal.goal_id === clickedGoalId);
@@ -167,7 +196,8 @@ export default function BacklogPage() {
 
     return(
         <>
-            <div className="mt-1 px-3 py-1">
+        <span>
+            <div className="mt-1 px-3 pt-1">
                 <ButtonGroup size="lg" className="d-flex justify-content-between">
                     {categories.map((category, idx, icon) => (
                         <ToggleButton
@@ -176,6 +206,8 @@ export default function BacklogPage() {
                             type="radio"
                             size="lg"
                             variant="outline-secondary"
+                            data-toggle="tooltip" 
+                            title={`Filter by ${category.name}`}
                             name={`category-${category.name}`}
                             value={category.value}
                             checked={categoryValue === category.value}
@@ -187,9 +219,30 @@ export default function BacklogPage() {
                             {category.icon}
                         </ToggleButton>
                     ))}
+                    <ToggleButton
+                        variant="outline-secondary"
+                        size="lg"
+                        type="radio"
+                        data-toggle="tooltip" 
+                        title={`Show Alerts`}
+                        checked={ goalQuery.complete }
+                        style={{ position: 'relative' }}
+                        onClick={getUpcomingItems}
+                    >
+                        {showAlertBadge && (
+                            <span className="position-absolute top-60 end-0 translate-middle p-1 bg-danger border border-light rounded-circle" style={{ zIndex: 1 }}>
+                                <span className="visually-hidden">New alerts</span>
+                            </span>
+                        )}
+                        <BiBell
+                            size={24}
+                            style={{ color: "#6c757d" }}
+                        />
+                    </ToggleButton>
                 </ButtonGroup>
             </div>
-            <div className="px-3">
+            <div className="px-3 pb-1 d-flex justify-content-between">
+                <span></span>
                 <ButtonGroup className="xs-6">
                     {sortType.map((sort, idx, icon) => (
                         <ToggleButton
@@ -226,18 +279,18 @@ export default function BacklogPage() {
                         <FaRegCalendarCheck size={18} className="mx-1"/>
                     </ToggleButton>
                 </ButtonGroup>
-                <ButtonGroup>
-                </ButtonGroup>
                 <div>
                 </div>
+                <span> </span>
             </div>
-            <div className="bg-light">
+            <div className="bg-light border">
             <ResultsList 
                 resultData={resultData}  
                 onCardClick={handleCardClick}
                 onClickComplete={handleCompleteClick}
             />
             </div>
+        </span>
             {isGoalModalVisible && (
                 <GoalModal
                     goalData={goalData}

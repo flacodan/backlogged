@@ -50,6 +50,7 @@ const {
   updateGoalData,
   deleteGoal,
   countUserGoals,
+  checkUpcomingGoals,
 } = goalCtrl;
 // GOAL ENDPOINTS
 app.get("/api/goals", loginRequired, getAllGoals);
@@ -59,6 +60,7 @@ app.post("/api/goal", loginRequired, addGoal);
 app.put("/api/goal/:id", loginRequired, updateGoalData);
 app.delete("/api/goal/:id", loginRequired, deleteGoal);
 app.get("/api/countUserGoals", loginRequired, countUserGoals);
+app.get("/api/upcomingGoalsExist", loginRequired, checkUpcomingGoals);
 
 const { getUser, addUser, updateUserData, deleteUser, getOrCreateUser } =
   userCtrl;

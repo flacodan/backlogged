@@ -12,13 +12,12 @@ function App() {
   const [isLoginVisible, setLoginVisible] = useState(false);
   const [isHintModalVisible, setHintModalVisible] = useState(false);
   const [isUserModalVisible, setUserModalVisible] = useState(false);
-  const [user, setUser] = useState("test");
-
+  const [user, setUser] = useState("test@test.com");
+  
 
   const handleHintClose = () => { setHintModalVisible(false); };
   const handleUserClose = () => { setUserModalVisible(false); };
   const handleUserOpen = () => { setUserModalVisible(true); };
-
 
   useEffect(() => {
     const checkForUserSession = async () => {
@@ -29,9 +28,9 @@ function App() {
       } catch (err) {
           console.error('Error loading data: ', err);
       }
-  };
-  checkForUserSession();
-  console.log("App.useEffect Finished.");
+    };
+    checkForUserSession();
+    console.log("App.useEffect Finished.");
   }, []);
 
   const handleCreateUser = async (formData) => {
@@ -54,29 +53,23 @@ function App() {
     };
   };
 
-
   const handleLogin = async (formData) => {
     try {
       const response = await axios.post(`/api/auth`, formData);
       if(response.status != 200){
         console.log("App.handleLogin bad response" + JSON.stringify(response.data));
-        // or window.alert("Wrong email or password")
-        // if incorrect, warn user to try again: window.confirm("An account does not exist with this email address: " + email);
       } else {
         console.log("App.handleLogin Success!" + JSON.stringify(response.data));
         // load page using prefs!!!!!!!!!!!!!!!!!!!!!
         setLoginVisible(false);
         const {user_id, username} = response.data;
         setUser(prevUser => username);
-        console.log("Logged in as " + username);
       }
     } catch (error) {
       console.log("Error logging in");
       console.error('Error updating data:', error);
     };
     window.location.reload(true);
-    
-    console.log("Logged in as (end) " + user);
   };
 
   const handleLogout = async () => {
