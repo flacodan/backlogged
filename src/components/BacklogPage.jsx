@@ -201,6 +201,7 @@ export default function BacklogPage() {
                 <ButtonGroup size="lg" className="d-flex justify-content-between">
                     {categories.map((category, idx, icon) => (
                         <ToggleButton
+                            className=""
                             key={idx}
                             id={`category-${idx}`}
                             type="radio"
@@ -220,12 +221,13 @@ export default function BacklogPage() {
                         </ToggleButton>
                     ))}
                     <ToggleButton
+                        className=""
                         variant="outline-secondary"
                         size="lg"
                         type="radio"
                         data-toggle="tooltip" 
                         title={`Show Alerts`}
-                        checked={ goalQuery.complete }
+                        checked={ false }
                         style={{ position: 'relative' }}
                         onClick={getUpcomingItems}
                     >
@@ -241,11 +243,11 @@ export default function BacklogPage() {
                     </ToggleButton>
                 </ButtonGroup>
             </div>
-            <div className="px-3 pb-1 d-flex justify-content-between">
-                <span></span>
+            <div className="px-3 pb-1 pt-1">
                 <ButtonGroup className="xs-6">
                     {sortType.map((sort, idx, icon) => (
                         <ToggleButton
+                            className=" rounded-0"
                             key={idx}
                             id={`sort-${idx}`}
                             type="radio"
@@ -266,6 +268,7 @@ export default function BacklogPage() {
                     ))}
                     <ToggleButton variant="secondary" disabled></ToggleButton>
                     <ToggleButton
+                        className=" rounded-0"
                         variant="outline-secondary"
                         size="xs"
                         type="checkbox"
@@ -281,7 +284,6 @@ export default function BacklogPage() {
                 </ButtonGroup>
                 <div>
                 </div>
-                <span> </span>
             </div>
             <div className="bg-light border">
             <ResultsList 

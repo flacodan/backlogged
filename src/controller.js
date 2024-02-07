@@ -111,6 +111,7 @@ export const goalCtrl = {
     const upcomingExist = await Goal.findAndCountAll({
       where: {
         user_id: user_id,
+        complete: false,
         due_date: {
           [Op.lte]: Sequelize.literal("NOW() + INTERVAL '7 days'"),
         },

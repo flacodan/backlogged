@@ -54,8 +54,10 @@ export default function ResultsList ({ resultData, onCardClick, onClickComplete 
           <Col>
             <Row>
               <Col>
-                  {result.description.substring(0,60)}...
-                  Est: {result.time_est} hr
+                <div>
+                  {result.description.substring(0,60)}...</div>
+                  <div>
+                  Est: {result.time_est} hr</div>
               </Col>
             </Row>
           </Col>
